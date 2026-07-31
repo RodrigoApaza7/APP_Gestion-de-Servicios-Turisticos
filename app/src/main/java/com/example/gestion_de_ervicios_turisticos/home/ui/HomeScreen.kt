@@ -189,7 +189,7 @@ private fun CarruselDestacados(
                     .padding(16.dp),
                 contentAlignment = Alignment.BottomStart
             ) {
-                // TODO: Image(painter = painterResource(...), contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
+                // TODO:Image(painter = painterResource(...), contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
                 Column(
                     modifier = Modifier.clickable(onClick = { onServicioClick(servicio) })
                 ) {
