@@ -20,6 +20,7 @@ import com.example.gestion_de_ervicios_turisticos.auth.ui.WelcomeScreen
 import com.example.gestion_de_ervicios_turisticos.home.ui.DetalleServicioScreen
 import com.example.gestion_de_ervicios_turisticos.home.ui.HomeScreen
 import com.example.gestion_de_ervicios_turisticos.perfil.ui.PerfilScreen
+import com.example.gestion_de_ervicios_turisticos.reservas.ui.HistorialReservasScreen
 import com.example.gestion_de_ervicios_turisticos.splash.ui.SplashConfig
 import com.example.gestion_de_ervicios_turisticos.splash.ui.SplashScreen
 import com.example.gestion_de_ervicios_turisticos.ui.theme.Gestion_de_ervicios_TuristicosTheme
@@ -90,14 +91,17 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("perfil") {
                             PerfilScreen(
-                                onIrAHistorial = {
-                                    // TODO: navegar cuando exista la pantalla de Historial
-                                },
+                                onIrAHistorial = { navController.navigate("historial") },
                                 onCerrarSesion = {
                                     navController.navigate("welcome") {
-                                        popUpTo(0) { inclusive = true } // borra todo el historial de navegación
+                                        popUpTo(0) { inclusive = true }
                                     }
                                 }
+                            )
+                        }
+                        composable("historial") {
+                            HistorialReservasScreen(
+                                onVolver = { navController.popBackStack() }
                             )
                         }
                     }
