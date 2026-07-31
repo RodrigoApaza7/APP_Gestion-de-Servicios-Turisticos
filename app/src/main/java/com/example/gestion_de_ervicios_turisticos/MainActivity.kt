@@ -19,6 +19,7 @@ import com.example.gestion_de_ervicios_turisticos.auth.ui.RegisterScreen
 import com.example.gestion_de_ervicios_turisticos.auth.ui.WelcomeScreen
 import com.example.gestion_de_ervicios_turisticos.home.ui.DetalleServicioScreen
 import com.example.gestion_de_ervicios_turisticos.home.ui.HomeScreen
+import com.example.gestion_de_ervicios_turisticos.perfil.ui.PerfilScreen
 import com.example.gestion_de_ervicios_turisticos.splash.ui.SplashConfig
 import com.example.gestion_de_ervicios_turisticos.splash.ui.SplashScreen
 import com.example.gestion_de_ervicios_turisticos.ui.theme.Gestion_de_ervicios_TuristicosTheme
@@ -73,12 +74,8 @@ class MainActivity : ComponentActivity() {
                                 onServicioClick = { servicio ->
                                     navController.navigate("detalle/${servicio.id}")
                                 },
-                                onIrAItinerario = {
-                                    // TODO: navegar cuando exista la pantalla de Itinerario
-                                },
-                                onIrAPerfil = {
-                                    // TODO: navegar cuando exista la pantalla de Perfil
-                                }
+                                onIrAItinerario = { /* TODO */ },
+                                onIrAPerfil = { navController.navigate("perfil") }
                             )
                         }
                         composable("detalle/{servicioId}") { backStackEntry ->
@@ -88,6 +85,18 @@ class MainActivity : ComponentActivity() {
                                 onVolver = { navController.popBackStack() },
                                 onReservar = { servicio ->
                                     // TODO: conectar cuando exista la lógica de Reservas
+                                }
+                            )
+                        }
+                        composable("perfil") {
+                            PerfilScreen(
+                                onIrAHistorial = {
+                                    // TODO: navegar cuando exista la pantalla de Historial
+                                },
+                                onCerrarSesion = {
+                                    navController.navigate("welcome") {
+                                        popUpTo(0) { inclusive = true } // borra todo el historial de navegación
+                                    }
                                 }
                             )
                         }

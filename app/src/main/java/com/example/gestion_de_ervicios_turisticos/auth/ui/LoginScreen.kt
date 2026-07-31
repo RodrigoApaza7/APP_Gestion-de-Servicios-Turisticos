@@ -26,6 +26,7 @@ import com.example.gestion_de_ervicios_turisticos.auth.viewmodel.AuthUiState
 import com.example.gestion_de_ervicios_turisticos.auth.viewmodel.LoginViewModel
 import com.example.gestion_de_ervicios_turisticos.ui.theme.Gestion_de_ervicios_TuristicosTheme
 import com.example.gestion_de_ervicios_turisticos.R
+import com.example.gestion_de_ervicios_turisticos.auth.data.SesionUsuario
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,7 +41,9 @@ fun LoginScreen(
 
     LaunchedEffect(uiState) {
         if (uiState is AuthUiState.Exito) {
-            onLoginExitoso((uiState as AuthUiState.Exito).usuario)
+            val usuario = (uiState as AuthUiState.Exito).usuario
+            SesionUsuario.iniciarSesion(usuario)
+            onLoginExitoso(usuario)
         }
     }
 
