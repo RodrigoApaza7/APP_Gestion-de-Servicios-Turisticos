@@ -6,7 +6,7 @@ plugins {
 android {
     namespace = "com.example.gestion_de_ervicios_turisticos"
     compileSdk {
-        version = release(36) {
+        version = release(37) {
             minorApiLevel = 1
         }
     }
