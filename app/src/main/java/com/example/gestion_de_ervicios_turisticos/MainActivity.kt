@@ -19,6 +19,7 @@ import com.example.gestion_de_ervicios_turisticos.auth.ui.RegisterScreen
 import com.example.gestion_de_ervicios_turisticos.auth.ui.WelcomeScreen
 import com.example.gestion_de_ervicios_turisticos.home.ui.DetalleServicioScreen
 import com.example.gestion_de_ervicios_turisticos.home.ui.HomeScreen
+import com.example.gestion_de_ervicios_turisticos.itinerario.ui.ItinerarioScreen
 import com.example.gestion_de_ervicios_turisticos.perfil.ui.PerfilScreen
 import com.example.gestion_de_ervicios_turisticos.reservas.ui.HistorialReservasScreen
 import com.example.gestion_de_ervicios_turisticos.splash.ui.SplashConfig
@@ -72,10 +73,8 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("home") {
                             HomeScreen(
-                                onServicioClick = { servicio ->
-                                    navController.navigate("detalle/${servicio.id}")
-                                },
-                                onIrAItinerario = { /* TODO */ },
+                                onServicioClick = { servicio -> navController.navigate("detalle/${servicio.id}") },
+                                onIrAItinerario = { navController.navigate("itinerario") },
                                 onIrAPerfil = { navController.navigate("perfil") }
                             )
                         }
@@ -102,6 +101,13 @@ class MainActivity : ComponentActivity() {
                         composable("historial") {
                             HistorialReservasScreen(
                                 onVolver = { navController.popBackStack() }
+                            )
+                        }
+                        composable("itinerario") {
+                            ItinerarioScreen(
+                                onConfirmarItinerario = {
+                                    // TODO: conectar cuando exista la lógica real de confirmar/pagar
+                                }
                             )
                         }
                     }

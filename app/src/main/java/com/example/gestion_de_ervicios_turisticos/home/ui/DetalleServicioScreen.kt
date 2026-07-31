@@ -20,7 +20,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gestion_de_ervicios_turisticos.home.data.ServicioRepository
 import com.example.gestion_de_ervicios_turisticos.home.model.Servicio
-import com.example.gestion_de_ervicios_turisticos.home.model.TipoServicio
+import com.example.gestion_de_ervicios_turisticos.itinerario.data.ItinerarioEnCurso
+import com.example.gestion_de_ervicios_turisticos.itinerario.model.ItemItinerario
+
 
 @Composable
 fun DetalleServicioScreen(
@@ -120,7 +122,7 @@ fun DetalleServicioScreen(
             }
         }
 
-        // Barra inferior fija: precio + botón de reservar
+        // Barra inferior fija: precio + botones
         Row(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -139,17 +141,35 @@ fun DetalleServicioScreen(
                 )
             }
 
-            Button(
-                onClick = { onReservar(servicio) },
-                shape = RoundedCornerShape(50),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0F4C46)),
-                modifier = Modifier.height(50.dp)
-            ) {
-                Text("Reservar", color = Color.White, fontWeight = FontWeight.SemiBold)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedButton(
+                    onClick = {
+                        ItinerarioEnCurso.agregar(
+                            ItemItinerario(
+                                servicioId = servicio.id,
+                                nombreServicio = servicio.nombre,
+                                destino = servicio.destino,
+                                precio = servicio.precio
+                            )
+                        )
+                    },
+                    shape = RoundedCornerShape(50)
+                ) {
+                    Text("+ Itinerario")
+                }
+
+                Button(
+                    onClick = { onReservar(servicio) },
+                    shape = RoundedCornerShape(50),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0F4C46)),
+                    modifier = Modifier.height(50.dp)
+                ) {
+                    Text("Reservar", color = Color.White, fontWeight = FontWeight.SemiBold)
+                }
             }
         }
-    }
-}
+    } // <- cierra el Box exterior
+}     // <- cierra la función DetalleServicioScreen
 
 @Composable
 private fun BotonCircular(
