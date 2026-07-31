@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.gestion_de_ervicios_turisticos.auth.ui.LoginScreen
 import com.example.gestion_de_ervicios_turisticos.auth.ui.RegisterScreen
 import com.example.gestion_de_ervicios_turisticos.auth.ui.WelcomeScreen
+import com.example.gestion_de_ervicios_turisticos.home.ui.DetalleServicioScreen
 import com.example.gestion_de_ervicios_turisticos.home.ui.HomeScreen
 import com.example.gestion_de_ervicios_turisticos.splash.ui.SplashConfig
 import com.example.gestion_de_ervicios_turisticos.splash.ui.SplashScreen
@@ -70,14 +71,23 @@ class MainActivity : ComponentActivity() {
                         composable("home") {
                             HomeScreen(
                                 onServicioClick = { servicio ->
-                                    // TODO: cuando exista la pantalla de Detalle, navegar así:
-                                    // navController.navigate("detalle/${servicio.id}")
+                                    navController.navigate("detalle/${servicio.id}")
                                 },
                                 onIrAItinerario = {
                                     // TODO: navegar cuando exista la pantalla de Itinerario
                                 },
                                 onIrAPerfil = {
                                     // TODO: navegar cuando exista la pantalla de Perfil
+                                }
+                            )
+                        }
+                        composable("detalle/{servicioId}") { backStackEntry ->
+                            val servicioId = backStackEntry.arguments?.getString("servicioId") ?: ""
+                            DetalleServicioScreen(
+                                servicioId = servicioId,
+                                onVolver = { navController.popBackStack() },
+                                onReservar = { servicio ->
+                                    // TODO: conectar cuando exista la lógica de Reservas
                                 }
                             )
                         }

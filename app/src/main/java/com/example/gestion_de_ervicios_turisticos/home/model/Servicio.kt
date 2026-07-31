@@ -7,7 +7,8 @@ data class Servicio(
     val destino: String,
     val precio: Double,
     val calificacion: Double,
-    val esDestacado: Boolean = false
+    val esDestacado: Boolean = false,
+    val descripcion: String = "Descripción no disponible por el momento." // valor por defecto, no rompe tus datos existentes
 )
 
 enum class TipoServicio(val etiqueta: String) {

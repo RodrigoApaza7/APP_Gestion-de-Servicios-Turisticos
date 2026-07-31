@@ -23,4 +23,6 @@ class ServicioRepository {
     fun obtenerTodos(): List<Servicio> = servicios
 
     fun obtenerDestacados(): List<Servicio> = servicios.filter { it.esDestacado }
+
+    fun obtenerPorId(id: String): Servicio? = servicios.find { it.id == id }
 }
