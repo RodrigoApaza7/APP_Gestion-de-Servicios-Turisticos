@@ -22,12 +22,14 @@ import androidx.compose.ui.unit.sp
 import com.example.gestion_de_ervicios_turisticos.auth.data.SesionUsuario
 import com.example.gestion_de_ervicios_turisticos.ui.theme.ColoresSaranta
 
+
 // Paleta de la app, centralizada aquí para reutilizarla fácil
 
 
 @Composable
 fun PerfilScreen(
     onIrAHistorial: () -> Unit,
+    onIrAEditarPerfil: () -> Unit,
     onCerrarSesion: () -> Unit
 ) {
     val usuario = SesionUsuario.usuarioActual.value
@@ -131,7 +133,7 @@ fun PerfilScreen(
         OpcionPerfil(
             icono = Icons.Filled.Edit,
             texto = "Editar perfil",
-            onClick = { /* TODO: pantalla de edición, si da tiempo */ }
+            onClick = onIrAEditarPerfil
         )
         OpcionPerfil(
             icono = Icons.Filled.Settings,
@@ -175,7 +177,7 @@ private fun OpcionPerfil(
     texto: String,
     colorIcono: Color = ColoresSaranta.Verde,
     colorTexto: Color = ColoresSaranta.Negro,
-    onClick: () -> Unit
+    onClick: () -> Unit          // <- así debe quedar, NO "onClick = onIrAEditarPerfil"
 ) {
     Row(
         modifier = Modifier
@@ -195,6 +197,7 @@ private fun OpcionPerfil(
 fun PerfilScreenPreview() {
     PerfilScreen(
         onIrAHistorial = {},
+        onIrAEditarPerfil = {},   // <- agrega esta línea
         onCerrarSesion = {}
     )
 }

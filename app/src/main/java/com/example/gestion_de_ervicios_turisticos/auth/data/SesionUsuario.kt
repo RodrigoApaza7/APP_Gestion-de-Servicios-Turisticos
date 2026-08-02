@@ -19,4 +19,8 @@ object SesionUsuario {
     fun cerrarSesion() {
         usuarioActual.value = null
     }
+
+    fun actualizarUsuario(usuarioActualizado: User) {
+        usuarioActual.value = usuarioActualizado
+    }
 }

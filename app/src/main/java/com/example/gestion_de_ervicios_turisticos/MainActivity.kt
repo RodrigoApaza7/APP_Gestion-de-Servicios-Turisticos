@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.gestion_de_ervicios_turisticos.auth.model.RolUsuario
+import com.example.gestion_de_ervicios_turisticos.auth.ui.EditarPerfilScreen
 import com.example.gestion_de_ervicios_turisticos.auth.ui.LoginScreen
 import com.example.gestion_de_ervicios_turisticos.auth.ui.RegisterScreen
 import com.example.gestion_de_ervicios_turisticos.auth.ui.SeleccionRolScreen
@@ -97,6 +98,7 @@ class MainActivity : ComponentActivity() {
                         composable("perfil") {
                             PerfilScreen(
                                 onIrAHistorial = { navController.navigate("historial") },
+                                onIrAEditarPerfil = { navController.navigate("editar-perfil") },
                                 onCerrarSesion = {
                                     navController.navigate("welcome") {
                                         popUpTo(0) { inclusive = true }
@@ -121,6 +123,12 @@ class MainActivity : ComponentActivity() {
                                 onRolSeleccionado = { rol ->
                                     navController.navigate("register/${rol.valor}")
                                 }
+                            )
+                        }
+                        composable("editar-perfil") {
+                            EditarPerfilScreen(
+                                onVolver = { navController.popBackStack() },
+                                onGuardadoExitoso = { navController.popBackStack() }
                             )
                         }
                     }

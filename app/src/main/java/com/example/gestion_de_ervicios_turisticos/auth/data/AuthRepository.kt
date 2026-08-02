@@ -11,6 +11,7 @@ class AuthRepository {
     )
     private val credenciales = mutableMapOf("demo@travelhub.com" to "123456")
 
+
     suspend fun login(correo: String, contrasena: String): Result<User> {
         delay(1200) // simula tiempo de respuesta de una API real
         val contrasenaGuardada = credenciales[correo]
@@ -49,5 +50,11 @@ class AuthRepository {
         usuariosRegistrados.add(nuevoUsuario)
         credenciales[correo] = contrasena
         return Result.success(nuevoUsuario)
+    }
+    fun actualizarUsuario(usuarioActualizado: User) {
+        val index = usuariosRegistrados.indexOfFirst { it.id == usuarioActualizado.id }
+        if (index != -1) {
+            usuariosRegistrados[index] = usuarioActualizado
+        }
     }
 }
