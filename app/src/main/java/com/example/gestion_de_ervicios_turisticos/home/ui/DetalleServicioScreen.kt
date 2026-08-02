@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
@@ -22,7 +22,7 @@ import com.example.gestion_de_ervicios_turisticos.home.data.ServicioRepository
 import com.example.gestion_de_ervicios_turisticos.home.model.Servicio
 import com.example.gestion_de_ervicios_turisticos.itinerario.data.ItinerarioEnCurso
 import com.example.gestion_de_ervicios_turisticos.itinerario.model.ItemItinerario
-
+import com.example.gestion_de_ervicios_turisticos.ui.theme.ColoresSaranta
 
 @Composable
 fun DetalleServicioScreen(
@@ -31,8 +31,6 @@ fun DetalleServicioScreen(
     onReservar: (Servicio) -> Unit,
     repository: ServicioRepository = remember { ServicioRepository() }
 ) {
-    // Como no hay operación async real (es mock local), basta con recordar el resultado.
-    // Si en el futuro esto viene de una API, aquí es donde cambiaría a un ViewModel con estado de carga.
     val servicio = remember(servicioId) { repository.obtenerPorId(servicioId) }
 
     if (servicio == null) {
@@ -49,7 +47,7 @@ fun DetalleServicioScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(280.dp)
-                    .background(Color(0xFFB8C9C6)) // TODO: reemplazar por imagen real del servicio
+                    .background(ColoresSaranta.AzulOscuro) // TODO: reemplazar por imagen real del servicio
             ) {
                 // TODO: Image(painter = painterResource(...), contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
 
@@ -60,14 +58,14 @@ fun DetalleServicioScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     BotonCircular(
-                        icono = Icons.Filled.ArrowBack,
+                        icono = Icons.AutoMirrored.Filled.ArrowBack,
                         descripcion = "Volver",
                         onClick = onVolver
                     )
                     BotonCircular(
                         icono = if (esFavorito) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
                         descripcion = "Favorito",
-                        tint = if (esFavorito) Color.Red else Color.Black,
+                        tint = if (esFavorito) ColoresSaranta.Dorado else ColoresSaranta.Negro,
                         onClick = { esFavorito = !esFavorito }
                     )
                 }
@@ -78,12 +76,12 @@ fun DetalleServicioScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 20.dp)
-                    .padding(top = 20.dp, bottom = 100.dp) // espacio para el botón fijo de abajo
+                    .padding(top = 20.dp, bottom = 100.dp)
             ) {
                 Text(
                     text = servicio.tipo.etiqueta,
                     fontSize = 13.sp,
-                    color = Color(0xFF0F4C46),
+                    color = ColoresSaranta.VerdeOscuro,
                     fontWeight = FontWeight.SemiBold
                 )
 
@@ -92,31 +90,33 @@ fun DetalleServicioScreen(
                 Text(
                     text = servicio.nombre,
                     fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = ColoresSaranta.Negro
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("📍 ${servicio.destino}", fontSize = 14.sp, color = Color(0xFF757575))
+                    Text("📍 ${servicio.destino}", fontSize = 14.sp, color = ColoresSaranta.AzulOscuro.copy(alpha = 0.7f))
                     Spacer(modifier = Modifier.width(16.dp))
-                    Text("⭐ ${servicio.calificacion}", fontSize = 14.sp, color = Color(0xFF757575))
+                    Text("⭐ ${servicio.calificacion}", fontSize = 14.sp, color = ColoresSaranta.Dorado)
                 }
 
                 Spacer(modifier = Modifier.height(20.dp))
-                HorizontalDivider(color = Color(0xFFE0E0E0))
+                HorizontalDivider(color = ColoresSaranta.Crema)
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
                     text = "Descripción",
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = ColoresSaranta.Negro
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = servicio.descripcion,
                     fontSize = 14.sp,
-                    color = Color(0xFF555555),
+                    color = ColoresSaranta.Negro.copy(alpha = 0.7f),
                     lineHeight = 20.sp
                 )
             }
@@ -133,11 +133,12 @@ fun DetalleServicioScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-                Text("Precio", fontSize = 12.sp, color = Color(0xFF9E9E9E))
+                Text("Precio", fontSize = 12.sp, color = ColoresSaranta.Negro.copy(alpha = 0.5f))
                 Text(
                     text = "S/ ${servicio.precio.toInt()}",
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = ColoresSaranta.VerdeOscuro
                 )
             }
 
@@ -153,6 +154,7 @@ fun DetalleServicioScreen(
                             )
                         )
                     },
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = ColoresSaranta.VerdeOscuro),
                     shape = RoundedCornerShape(50)
                 ) {
                     Text("+ Itinerario")
@@ -161,21 +163,21 @@ fun DetalleServicioScreen(
                 Button(
                     onClick = { onReservar(servicio) },
                     shape = RoundedCornerShape(50),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0F4C46)),
+                    colors = ButtonDefaults.buttonColors(containerColor = ColoresSaranta.VerdeOscuro),
                     modifier = Modifier.height(50.dp)
                 ) {
                     Text("Reservar", color = Color.White, fontWeight = FontWeight.SemiBold)
                 }
             }
         }
-    } // <- cierra el Box exterior
-}     // <- cierra la función DetalleServicioScreen
+    }
+}
 
 @Composable
 private fun BotonCircular(
     icono: androidx.compose.ui.graphics.vector.ImageVector,
     descripcion: String,
-    tint: Color = Color.Black,
+    tint: Color = ColoresSaranta.Negro,
     onClick: () -> Unit
 ) {
     Box(
@@ -200,10 +202,13 @@ private fun ServicioNoEncontrado(onVolver: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("No se encontró el servicio.", fontSize = 16.sp)
+        Text("No se encontró el servicio.", fontSize = 16.sp, color = ColoresSaranta.Negro)
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = onVolver) {
-            Text("Volver")
+        Button(
+            onClick = onVolver,
+            colors = ButtonDefaults.buttonColors(containerColor = ColoresSaranta.VerdeOscuro)
+        ) {
+            Text("Volver", color = Color.White)
         }
     }
 }
@@ -212,7 +217,7 @@ private fun ServicioNoEncontrado(onVolver: () -> Unit) {
 @Composable
 fun DetalleServicioScreenPreview() {
     DetalleServicioScreen(
-        servicioId = "1", // debe coincidir con un id real de tu ServicioRepository
+        servicioId = "1",
         onVolver = {},
         onReservar = {}
     )

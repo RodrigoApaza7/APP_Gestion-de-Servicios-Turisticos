@@ -20,16 +20,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gestion_de_ervicios_turisticos.auth.data.SesionUsuario
+import com.example.gestion_de_ervicios_turisticos.ui.theme.ColoresSaranta
 
 // Paleta de la app, centralizada aquí para reutilizarla fácil
-private object ColoresSaranta {
-    val VerdeOscuro = Color(0xFF0D5B54)
-    val Verde = Color(0xFF1BA795)
-    val AzulOscuro = Color(0xFF134E6F)
-    val Dorado = Color(0xFFD4A017)
-    val Crema = Color(0xFFF2E5C6)
-    val Negro = Color(0xFF1E272D)
-}
+
 
 @Composable
 fun PerfilScreen(

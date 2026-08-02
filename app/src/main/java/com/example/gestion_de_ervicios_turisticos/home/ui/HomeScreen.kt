@@ -4,9 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -28,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gestion_de_ervicios_turisticos.home.model.Servicio
 import com.example.gestion_de_ervicios_turisticos.home.model.TipoServicio
 import com.example.gestion_de_ervicios_turisticos.home.viewmodel.HomeViewModel
+import com.example.gestion_de_ervicios_turisticos.ui.theme.ColoresSaranta
 
 @Composable
 fun HomeScreen(
@@ -49,7 +47,6 @@ fun HomeScreen(
             onServicioClick = onServicioClick
         )
 
-        // Bottom nav flotante
         BottomNavFlotante(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -72,7 +69,7 @@ private fun LazyColumnConScroll(
 ) {
     androidx.compose.foundation.lazy.LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(bottom = 100.dp) // deja espacio para el bottom nav flotante
+        contentPadding = PaddingValues(bottom = 100.dp)
     ) {
         item { EncabezadoInicio() }
         item { Spacer(modifier = Modifier.height(16.dp)) }
@@ -95,9 +92,9 @@ private fun LazyColumnConScroll(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Recomendados", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Text("Recomendados", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = ColoresSaranta.Negro)
                 TextButton(onClick = { /* TODO: ver todo el catálogo si separan pantalla más adelante */ }) {
-                    Text("Ver todo")
+                    Text("Ver todo", color = ColoresSaranta.VerdeOscuro)
                 }
             }
         }
@@ -121,27 +118,26 @@ private fun EncabezadoInicio() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = { /* TODO: definir qué abre el menú (drawer, ajustes, etc.) */ }) {
-            Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menú")
+            Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menú", tint = ColoresSaranta.Negro)
         }
-        Text("Descubre", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+        Text("Descubre", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = ColoresSaranta.Negro)
         Box(
             modifier = Modifier
                 .size(38.dp)
                 .clip(CircleShape)
-                .background(Color(0xFFE0E0E0)),
+                .background(ColoresSaranta.Crema),
             contentAlignment = Alignment.Center
         ) {
             // TODO: reemplazar por la foto real del usuario cuando exista el perfil
             Icon(
                 imageVector = Icons.Filled.Person,
                 contentDescription = "Perfil",
-                tint = Color(0xFF9E9E9E)
+                tint = ColoresSaranta.AzulOscuro
             )
         }
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun CategoriasChips(
     tipoSeleccionado: TipoServicio,
@@ -157,7 +153,11 @@ private fun CategoriasChips(
                 selected = seleccionado,
                 onClick = { onTipoSeleccionado(tipo) },
                 label = { Text(tipo.etiqueta) },
-                shape = RoundedCornerShape(50)
+                shape = RoundedCornerShape(50),
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = ColoresSaranta.VerdeOscuro,
+                    selectedLabelColor = Color.White
+                )
             )
         }
     }
@@ -185,23 +185,21 @@ private fun CarruselDestacados(
                 modifier = Modifier
                     .fillMaxSize()
                     .clip(RoundedCornerShape(20.dp))
-                    .background(Color(0xFF0F4C46)) // TODO: reemplazar por imagen real del servicio
+                    .background(ColoresSaranta.VerdeOscuro) // TODO: reemplazar por imagen real del servicio
+                    .clickable(onClick = { onServicioClick(servicio) })
                     .padding(16.dp),
                 contentAlignment = Alignment.BottomStart
             ) {
-                // TODO:Image(painter = painterResource(...), contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
-                Column(
-                    modifier = Modifier.clickable(onClick = { onServicioClick(servicio) })
-                ) {
+                // TODO: Image(painter = painterResource(...), contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
+                Column {
                     Text(servicio.nombre, color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                    Text("⭐ ${servicio.calificacion}", color = Color.White, fontSize = 13.sp)
+                    Text("⭐ ${servicio.calificacion}", color = ColoresSaranta.Dorado, fontSize = 13.sp)
                 }
             }
         }
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        // Indicador de puntos
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
@@ -213,7 +211,7 @@ private fun CarruselDestacados(
                         .padding(horizontal = 3.dp)
                         .size(if (activo) 8.dp else 6.dp)
                         .clip(CircleShape)
-                        .background(if (activo) Color(0xFF0F4C46) else Color(0xFFD9D9D9))
+                        .background(if (activo) ColoresSaranta.VerdeOscuro else Color(0xFFD9D9D9))
                 )
             }
         }
@@ -241,7 +239,6 @@ private fun GridDeServicios(
                         TarjetaServicio(servicio = servicio, onClick = { onServicioClick(servicio) })
                     }
                 }
-                // Si la fila queda con un solo elemento (cantidad impar), rellena el espacio vacío
                 if (filaDeDos.size == 1) {
                     Spacer(modifier = Modifier.weight(1f))
                 }
@@ -249,6 +246,7 @@ private fun GridDeServicios(
         }
     }
 }
+
 @Composable
 private fun TarjetaServicio(servicio: Servicio, onClick: () -> Unit) {
     var esFavorito by remember { mutableStateOf(false) }
@@ -257,13 +255,14 @@ private fun TarjetaServicio(servicio: Servicio, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(Color(0xFFF5F5F5))
+            .background(ColoresSaranta.Crema)
+            .clickable(onClick = onClick)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(110.dp)
-                .background(Color(0xFFB8C9C6)) // TODO: reemplazar por imagen real del servicio
+                .background(ColoresSaranta.AzulOscuro) // TODO: reemplazar por imagen real del servicio
         ) {
             // TODO: Image(painter = painterResource(...), contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
             IconButton(
@@ -273,20 +272,20 @@ private fun TarjetaServicio(servicio: Servicio, onClick: () -> Unit) {
                 Icon(
                     imageVector = if (esFavorito) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
                     contentDescription = "Favorito",
-                    tint = if (esFavorito) Color.Red else Color.White
+                    tint = if (esFavorito) ColoresSaranta.Dorado else Color.White
                 )
             }
         }
         Column(modifier = Modifier.padding(10.dp)) {
-            Text(servicio.nombre, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
-            Text("📍 ${servicio.destino}", fontSize = 12.sp, color = Color(0xFF757575))
+            Text(servicio.nombre, fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = ColoresSaranta.Negro)
+            Text("📍 ${servicio.destino}", fontSize = 12.sp, color = ColoresSaranta.AzulOscuro.copy(alpha = 0.7f))
             Spacer(modifier = Modifier.height(4.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("⭐ ${servicio.calificacion}", fontSize = 12.sp)
-                Text("S/ ${servicio.precio.toInt()}", fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                Text("⭐ ${servicio.calificacion}", fontSize = 12.sp, color = ColoresSaranta.Negro)
+                Text("S/ ${servicio.precio.toInt()}", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = ColoresSaranta.VerdeOscuro)
             }
         }
     }
@@ -309,7 +308,7 @@ private fun BottomNavFlotante(
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = onIrAInicio) {
-            Icon(Icons.Filled.Home, contentDescription = "Inicio", tint = Color(0xFF0F4C46))
+            Icon(Icons.Filled.Home, contentDescription = "Inicio", tint = ColoresSaranta.VerdeOscuro)
         }
         IconButton(onClick = onIrAItinerario) {
             Icon(Icons.Filled.DateRange, contentDescription = "Itinerario", tint = Color(0xFF9E9E9E))
