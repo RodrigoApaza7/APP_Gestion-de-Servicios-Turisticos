@@ -83,8 +83,17 @@ fun PerfilScreen(
                         fontWeight = FontWeight.SemiBold
                     )
                 }
-            }
-        }
+
+                Spacer(modifier = Modifier.height(16.dp))
+                InfoFila(etiqueta = "Teléfono", valor = usuario.telefono.ifBlank { "No registrado" })
+                InfoFila(etiqueta = "Fecha de nacimiento", valor = usuario.fechaNacimiento.ifBlank { "No registrada" })
+
+                if (usuario.rol == "prestador") {
+                    InfoFila(etiqueta = "Negocio", valor = usuario.nombreNegocio ?: "No registrado")
+                    InfoFila(etiqueta = "RUC", valor = usuario.ruc ?: "No registrado")
+                }
+            } // <- cierra "if (usuario != null)"
+        } // <- cierra el Column del encabezado
 
         HorizontalDivider(color = Color(0xFFEEEEEE))
 
@@ -120,6 +129,19 @@ fun PerfilScreen(
         )
 
         Spacer(modifier = Modifier.height(24.dp))
+    } // <- cierra el Column raíz
+} // <- cierra PerfilScreen
+
+@Composable
+private fun InfoFila(etiqueta: String, valor: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(0.85f)
+            .padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(etiqueta, fontSize = 13.sp, color = Color(0xFF757575))
+        Text(valor, fontSize = 13.sp, fontWeight = FontWeight.Medium)
     }
 }
 
