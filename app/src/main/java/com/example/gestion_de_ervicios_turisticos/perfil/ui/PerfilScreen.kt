@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -19,6 +20,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gestion_de_ervicios_turisticos.auth.data.SesionUsuario
+
+// Paleta de la app, centralizada aquí para reutilizarla fácil
+private object ColoresSaranta {
+    val VerdeOscuro = Color(0xFF0D5B54)
+    val Verde = Color(0xFF1BA795)
+    val AzulOscuro = Color(0xFF134E6F)
+    val Dorado = Color(0xFFD4A017)
+    val Crema = Color(0xFFF2E5C6)
+    val Negro = Color(0xFF1E272D)
+}
 
 @Composable
 fun PerfilScreen(
@@ -32,59 +43,79 @@ fun PerfilScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        // Encabezado con avatar, nombre y correo
-        Column(
+        // Header con degradado de marca
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 48.dp, bottom = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFFE0E0E0)),
-                contentAlignment = Alignment.Center
-            ) {
-                // TODO: reemplazar por la foto real del usuario cuando exista esa función
-                Icon(
-                    imageVector = Icons.Filled.Person,
-                    contentDescription = "Foto de perfil",
-                    tint = Color(0xFF9E9E9E),
-                    modifier = Modifier.size(56.dp)
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(ColoresSaranta.VerdeOscuro, ColoresSaranta.AzulOscuro)
+                    )
                 )
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Text(
-                text = usuario?.nombre ?: "Invitado",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = usuario?.correo ?: "No has iniciado sesión",
-                fontSize = 14.sp,
-                color = Color(0xFF757575)
-            )
-
-            if (usuario != null) {
-                Spacer(modifier = Modifier.height(8.dp))
+                .padding(top = 48.dp, bottom = 28.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(50))
-                        .background(Color(0xFF0F4C46).copy(alpha = 0.1f))
-                        .padding(horizontal = 12.dp, vertical = 4.dp)
+                        .size(100.dp)
+                        .clip(CircleShape)
+                        .background(Color.White.copy(alpha = 0.15f)),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = usuario.rol.replaceFirstChar { it.uppercase() },
-                        fontSize = 12.sp,
-                        color = Color(0xFF0F4C46),
-                        fontWeight = FontWeight.SemiBold
+                    // TODO: reemplazar por la foto real del usuario cuando exista esa función
+                    Icon(
+                        imageVector = Icons.Filled.Person,
+                        contentDescription = "Foto de perfil",
+                        tint = Color.White,
+                        modifier = Modifier.size(56.dp)
                     )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Text(
+                    text = usuario?.nombre ?: "Invitado",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+                Text(
+                    text = usuario?.correo ?: "No has iniciado sesión",
+                    fontSize = 14.sp,
+                    color = Color.White.copy(alpha = 0.8f)
+                )
+
+                if (usuario != null) {
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(50))
+                            .background(ColoresSaranta.Dorado)
+                            .padding(horizontal = 14.dp, vertical = 5.dp)
+                    ) {
+                        Text(
+                            text = usuario.rol.replaceFirstChar { it.uppercase() },
+                            fontSize = 12.sp,
+                            color = ColoresSaranta.Negro,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                }
+            }
+        }
+
+        // Tarjeta con datos personales, superpuesta al header (efecto "card" flotante)
+        if (usuario != null) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .offset(y = (-20).dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(ColoresSaranta.Crema)
+                    .padding(vertical = 16.dp, horizontal = 20.dp)
+            ) {
                 InfoFila(etiqueta = "Teléfono", valor = usuario.telefono.ifBlank { "No registrado" })
                 InfoFila(etiqueta = "Fecha de nacimiento", valor = usuario.fechaNacimiento.ifBlank { "No registrada" })
 
@@ -92,12 +123,10 @@ fun PerfilScreen(
                     InfoFila(etiqueta = "Negocio", valor = usuario.nombreNegocio ?: "No registrado")
                     InfoFila(etiqueta = "RUC", valor = usuario.ruc ?: "No registrado")
                 }
-            } // <- cierra "if (usuario != null)"
-        } // <- cierra el Column del encabezado
+            }
+        }
 
-        HorizontalDivider(color = Color(0xFFEEEEEE))
-
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
         // Opciones del menú de perfil
         OpcionPerfil(
@@ -121,7 +150,8 @@ fun PerfilScreen(
         OpcionPerfil(
             icono = Icons.Filled.Logout,
             texto = "Cerrar sesión",
-            colorTexto = Color.Red,
+            colorIcono = Color(0xFFC62828),
+            colorTexto = Color(0xFFC62828),
             onClick = {
                 SesionUsuario.cerrarSesion()
                 onCerrarSesion()
@@ -129,19 +159,19 @@ fun PerfilScreen(
         )
 
         Spacer(modifier = Modifier.height(24.dp))
-    } // <- cierra el Column raíz
-} // <- cierra PerfilScreen
+    }
+}
 
 @Composable
 private fun InfoFila(etiqueta: String, valor: String) {
     Row(
         modifier = Modifier
-            .fillMaxWidth(0.85f)
-            .padding(vertical = 4.dp),
+            .fillMaxWidth()
+            .padding(vertical = 6.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(etiqueta, fontSize = 13.sp, color = Color(0xFF757575))
-        Text(valor, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+        Text(etiqueta, fontSize = 13.sp, color = ColoresSaranta.AzulOscuro.copy(alpha = 0.7f))
+        Text(valor, fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = ColoresSaranta.Negro)
     }
 }
 
@@ -149,7 +179,8 @@ private fun InfoFila(etiqueta: String, valor: String) {
 private fun OpcionPerfil(
     icono: ImageVector,
     texto: String,
-    colorTexto: Color = Color.Black,
+    colorIcono: Color = ColoresSaranta.Verde,
+    colorTexto: Color = ColoresSaranta.Negro,
     onClick: () -> Unit
 ) {
     Row(
@@ -159,7 +190,7 @@ private fun OpcionPerfil(
             .padding(horizontal = 20.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(imageVector = icono, contentDescription = null, tint = colorTexto)
+        Icon(imageVector = icono, contentDescription = null, tint = colorIcono)
         Spacer(modifier = Modifier.width(16.dp))
         Text(text = texto, fontSize = 15.sp, color = colorTexto)
     }
@@ -168,7 +199,6 @@ private fun OpcionPerfil(
 @Preview(showBackground = true)
 @Composable
 fun PerfilScreenPreview() {
-    // Simula un usuario con sesión iniciada, solo para ver el Preview con datos
     PerfilScreen(
         onIrAHistorial = {},
         onCerrarSesion = {}
