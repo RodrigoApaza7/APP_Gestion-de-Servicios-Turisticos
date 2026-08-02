@@ -22,7 +22,16 @@ class AuthRepository {
         }
     }
 
-    suspend fun registrar(nombre: String, correo: String, contrasena: String): Result<User> {
+    suspend fun registrar(
+        nombre: String,
+        correo: String,
+        contrasena: String,
+        telefono: String,
+        fechaNacimiento: String,
+        rol: String,
+        nombreNegocio: String? = null,
+        ruc: String? = null
+    ): Result<User> {
         delay(1200)
         if (credenciales.containsKey(correo)) {
             return Result.failure(Exception("Ya existe una cuenta con ese correo"))
@@ -30,7 +39,12 @@ class AuthRepository {
         val nuevoUsuario = User(
             id = (usuariosRegistrados.size + 1).toString(),
             nombre = nombre,
-            correo = correo
+            correo = correo,
+            rol = rol,
+            telefono = telefono,
+            fechaNacimiento = fechaNacimiento,
+            nombreNegocio = nombreNegocio,
+            ruc = ruc
         )
         usuariosRegistrados.add(nuevoUsuario)
         credenciales[correo] = contrasena

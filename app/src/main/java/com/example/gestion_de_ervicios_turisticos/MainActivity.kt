@@ -14,8 +14,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.gestion_de_ervicios_turisticos.auth.model.RolUsuario
 import com.example.gestion_de_ervicios_turisticos.auth.ui.LoginScreen
 import com.example.gestion_de_ervicios_turisticos.auth.ui.RegisterScreen
+import com.example.gestion_de_ervicios_turisticos.auth.ui.SeleccionRolScreen
 import com.example.gestion_de_ervicios_turisticos.auth.ui.WelcomeScreen
 import com.example.gestion_de_ervicios_turisticos.home.ui.DetalleServicioScreen
 import com.example.gestion_de_ervicios_turisticos.home.ui.HomeScreen
@@ -56,7 +58,7 @@ class MainActivity : ComponentActivity() {
                         composable("welcome") {
                             WelcomeScreen(
                                 onIrALogin = { navController.navigate("login") },
-                                onIrARegistro = { navController.navigate("register") }
+                                onIrARegistro = { navController.navigate("seleccion-rol") } // <- antes decía "register"
                             )
                         }
                         composable("login") {
@@ -65,8 +67,12 @@ class MainActivity : ComponentActivity() {
                                 onIrARegistro = { navController.navigate("register") }
                             )
                         }
-                        composable("register") {
+                        composable("register/{rol}") { backStackEntry ->
+                            val rolValor = backStackEntry.arguments?.getString("rol") ?: "turista"
+                            val rol = RolUsuario.entries.find { it.valor == rolValor } ?: RolUsuario.TURISTA
+
                             RegisterScreen(
+                                rol = rol,
                                 onRegistroExitoso = { navController.navigate("home") },
                                 onIrALogin = { navController.navigate("login") }
                             )
@@ -107,6 +113,13 @@ class MainActivity : ComponentActivity() {
                             ItinerarioScreen(
                                 onConfirmarItinerario = {
                                     // TODO: conectar cuando exista la lógica real de confirmar/pagar
+                                }
+                            )
+                        }
+                        composable("seleccion-rol") {
+                            SeleccionRolScreen(
+                                onRolSeleccionado = { rol ->
+                                    navController.navigate("register/${rol.valor}")
                                 }
                             )
                         }

@@ -15,10 +15,21 @@ class RegisterViewModel(
     private val _uiState = MutableStateFlow<AuthUiState>(AuthUiState.Inactivo)
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow()
 
-    fun registrar(nombre: String, correo: String, contrasena: String) {
+    fun registrar(
+        nombre: String,
+        correo: String,
+        contrasena: String,
+        telefono: String,
+        fechaNacimiento: String,
+        rol: String,
+        nombreNegocio: String? = null,
+        ruc: String? = null
+    ) {
         viewModelScope.launch {
             _uiState.value = AuthUiState.Cargando
-            val resultado = repository.registrar(nombre, correo, contrasena)
+            val resultado = repository.registrar(
+                nombre, correo, contrasena, telefono, fechaNacimiento, rol, nombreNegocio, ruc
+            )
             _uiState.value = resultado.fold(
                 onSuccess = { AuthUiState.Exito(it) },
                 onFailure = { AuthUiState.Error(it.message ?: "Error desconocido") }
