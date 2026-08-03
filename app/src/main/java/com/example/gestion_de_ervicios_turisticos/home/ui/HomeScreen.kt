@@ -25,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gestion_de_ervicios_turisticos.home.model.Servicio
 import com.example.gestion_de_ervicios_turisticos.home.model.TipoServicio
 import com.example.gestion_de_ervicios_turisticos.home.viewmodel.HomeViewModel
+import com.example.gestion_de_ervicios_turisticos.notificaciones.data.NotificacionRepository
 import com.example.gestion_de_ervicios_turisticos.ui.theme.ColoresSaranta
 
 @Composable
@@ -33,6 +34,7 @@ fun HomeScreen(
     onIrAItinerario: () -> Unit,
     onIrABuscar: () -> Unit,
     onIrAPerfil: () -> Unit,
+    onIrANotificaciones: () -> Unit,   // <- nuevo
     viewModel: HomeViewModel = viewModel()
 ) {
     val tipoSeleccionado by viewModel.tipoSeleccionado.collectAsState()
@@ -45,7 +47,8 @@ fun HomeScreen(
             serviciosFiltrados = serviciosFiltrados,
             destacados = destacados,
             onTipoSeleccionado = viewModel::seleccionarTipo,
-            onServicioClick = onServicioClick
+            onServicioClick = onServicioClick,
+            onIrANotificaciones = onIrANotificaciones   // <- nuevo
         )
 
         BottomNavFlotante(
@@ -66,13 +69,14 @@ private fun LazyColumnConScroll(
     serviciosFiltrados: List<Servicio>,
     destacados: List<Servicio>,
     onTipoSeleccionado: (TipoServicio) -> Unit,
-    onServicioClick: (Servicio) -> Unit
+    onServicioClick: (Servicio) -> Unit,
+    onIrANotificaciones: () -> Unit   // <- nuevo
 ) {
     androidx.compose.foundation.lazy.LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(bottom = 100.dp)
     ) {
-        item { EncabezadoInicio() }
+        item { EncabezadoInicio(onIrANotificaciones = onIrANotificaciones) }
         item { Spacer(modifier = Modifier.height(16.dp)) }
         item {
             CategoriasChips(
@@ -110,7 +114,7 @@ private fun LazyColumnConScroll(
 }
 
 @Composable
-private fun EncabezadoInicio() {
+private fun EncabezadoInicio(onIrANotificaciones: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -118,8 +122,20 @@ private fun EncabezadoInicio() {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = { /* TODO: definir qué abre el menú (drawer, ajustes, etc.) */ }) {
-            Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menú", tint = ColoresSaranta.Negro)
+        Box {
+            IconButton(onClick = onIrANotificaciones) {
+                Icon(imageVector = Icons.Filled.Notifications, contentDescription = "Notificaciones", tint = ColoresSaranta.Negro)
+            }
+            if (NotificacionRepository.hayNoLeidas()) {
+                Box(
+                    modifier = Modifier
+                        .size(9.dp)
+                        .align(Alignment.TopEnd)
+                        .offset(x = (-6).dp, y = 6.dp)
+                        .clip(CircleShape)
+                        .background(ColoresSaranta.Dorado)
+                )
+            }
         }
         Text("Descubre", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = ColoresSaranta.Negro)
         Box(
@@ -129,12 +145,7 @@ private fun EncabezadoInicio() {
                 .background(ColoresSaranta.Crema),
             contentAlignment = Alignment.Center
         ) {
-            // TODO: reemplazar por la foto real del usuario cuando exista el perfil
-            Icon(
-                imageVector = Icons.Filled.Person,
-                contentDescription = "Perfil",
-                tint = ColoresSaranta.AzulOscuro
-            )
+            Icon(imageVector = Icons.Filled.Person, contentDescription = "Perfil", tint = ColoresSaranta.AzulOscuro)
         }
     }
 }
@@ -329,7 +340,8 @@ fun HomeScreenPreview() {
     HomeScreen(
         onServicioClick = {},
         onIrAItinerario = {},
-        onIrABuscar = {},   // <- agrega esta línea
-        onIrAPerfil = {}
+        onIrABuscar = {},
+        onIrAPerfil = {},
+        onIrANotificaciones = {}   // <- agrega esta línea
     )
 }

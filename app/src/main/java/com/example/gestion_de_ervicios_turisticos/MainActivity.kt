@@ -24,6 +24,7 @@ import com.example.gestion_de_ervicios_turisticos.home.ui.BusquedaScreen
 import com.example.gestion_de_ervicios_turisticos.home.ui.DetalleServicioScreen
 import com.example.gestion_de_ervicios_turisticos.home.ui.HomeScreen
 import com.example.gestion_de_ervicios_turisticos.itinerario.ui.ItinerarioScreen
+import com.example.gestion_de_ervicios_turisticos.notificaciones.ui.NotificacionesScreen
 import com.example.gestion_de_ervicios_turisticos.perfil.ui.PerfilScreen
 import com.example.gestion_de_ervicios_turisticos.reservas.ui.HistorialReservasScreen
 import com.example.gestion_de_ervicios_turisticos.splash.ui.SplashConfig
@@ -83,8 +84,9 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(
                                 onServicioClick = { servicio -> navController.navigate("detalle/${servicio.id}") },
                                 onIrAItinerario = { navController.navigate("itinerario") },
-                                onIrABuscar = { navController.navigate("busqueda") },   // <- agrega esta línea
-                                onIrAPerfil = { navController.navigate("perfil") }
+                                onIrABuscar = { navController.navigate("busqueda") },
+                                onIrAPerfil = { navController.navigate("perfil") },
+                                onIrANotificaciones = { navController.navigate("notificaciones") }
                             )
                         }
                         composable("detalle/{servicioId}") { backStackEntry ->
@@ -138,6 +140,9 @@ class MainActivity : ComponentActivity() {
                                 onVolver = { navController.popBackStack() },
                                 onServicioClick = { servicio -> navController.navigate("detalle/${servicio.id}") }
                             )
+                        }
+                        composable("notificaciones") {
+                            NotificacionesScreen(onVolver = { navController.popBackStack() })
                         }
                     }
                 }
