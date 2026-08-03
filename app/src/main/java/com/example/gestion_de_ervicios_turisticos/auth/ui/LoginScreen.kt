@@ -1,7 +1,9 @@
 package com.example.gestion_de_ervicios_turisticos.auth.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -27,6 +30,8 @@ import com.example.gestion_de_ervicios_turisticos.auth.viewmodel.LoginViewModel
 import com.example.gestion_de_ervicios_turisticos.ui.theme.Gestion_de_ervicios_TuristicosTheme
 import com.example.gestion_de_ervicios_turisticos.R
 import com.example.gestion_de_ervicios_turisticos.auth.data.SesionUsuario
+import com.example.gestion_de_ervicios_turisticos.auth.data.GoogleAuthUiClient
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,6 +43,13 @@ fun LoginScreen(
     var correo by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
+
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    // Web Client ID generado en Google Cloud
+    val webClientId = "318861424627-0rffd7ccfpmub21jdc0k8aptkvcudk85.apps.googleusercontent.com"
+    val googleAuthClient = remember { GoogleAuthUiClient(context, webClientId) }
 
     LaunchedEffect(uiState) {
         if (uiState is AuthUiState.Exito) {
@@ -69,12 +81,11 @@ fun LoginScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            // TODO: aquí va tu imagen de fondo. Ejemplo:
-             Image(
-                 painter = painterResource(id = R.drawable.portada_login),
+            Image(
+                painter = painterResource(id = R.drawable.portada_login),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                 modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             )
 
             Column(
@@ -85,7 +96,6 @@ fun LoginScreen(
             ) {
                 Spacer(modifier = Modifier.height(48.dp))
 
-                // Avatar circular con borde blanco
                 Box(
                     modifier = Modifier
                         .size(120.dp)
@@ -103,7 +113,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(48.dp))
 
-                // Campo correo (translúcido)
                 TextField(
                     value = correo,
                     onValueChange = { correo = it },
@@ -123,7 +132,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Campo contraseña (translúcido)
                 TextField(
                     value = contrasena,
                     onValueChange = { contrasena = it },
@@ -152,7 +160,6 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 
-                // Botón Ingresar (negro, redondeado)
                 Button(
                     onClick = { viewModel.iniciarSesion(correo, contrasena) },
                     enabled = uiState !is AuthUiState.Cargando,
@@ -194,14 +201,23 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Botón de Google: placeholder circular.
-                // TODO: reemplaza el ícono por el logo oficial de Google
-                // (descárgalo de developers.google.com/identity y ponlo en res/drawable)
+                // Botón circular de Google funcional
                 Box(
                     modifier = Modifier
                         .size(44.dp)
                         .clip(CircleShape)
-                        .background(Color.White),
+                        .background(Color.White)
+                        .clickable {
+                            scope.launch {
+                                val result = googleAuthClient.signIn()
+                                result.onSuccess { credential ->
+                                    Toast.makeText(context, "Sesión con Google exitosa", Toast.LENGTH_SHORT).show()
+                                    viewModel.iniciarSesionConGoogle(credential)
+                                }.onFailure { error ->
+                                    Toast.makeText(context, "Error: ${error.localizedMessage}", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Text("G", fontWeight = FontWeight.Bold, color = Color.Black)

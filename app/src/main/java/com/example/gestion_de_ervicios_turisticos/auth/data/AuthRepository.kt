@@ -51,6 +51,21 @@ class AuthRepository {
         credenciales[correo] = contrasena
         return Result.success(nuevoUsuario)
     }
+    suspend fun loginConGoogle(correo: String, nombre: String, idToken: String): Result<User> {
+        delay(1200) // simula tiempo de respuesta de una API real
+        var usuario = usuariosRegistrados.find { it.correo == correo }
+        if (usuario == null) {
+            usuario = User(
+                id = (usuariosRegistrados.size + 1).toString(),
+                nombre = nombre,
+                correo = correo,
+                rol = "turista"
+            )
+            usuariosRegistrados.add(usuario)
+        }
+        return Result.success(usuario)
+    }
+
     fun actualizarUsuario(usuarioActualizado: User) {
         val index = usuariosRegistrados.indexOfFirst { it.id == usuarioActualizado.id }
         if (index != -1) {
