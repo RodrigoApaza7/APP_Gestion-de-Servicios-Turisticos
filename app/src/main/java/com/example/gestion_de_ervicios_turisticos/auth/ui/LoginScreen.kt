@@ -2,8 +2,8 @@ package com.example.gestion_de_ervicios_turisticos.auth.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -181,7 +181,50 @@ fun LoginScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
+
+                // Botón "Continuar con Google" integrado
+                Surface(
+                    onClick = {
+                        scope.launch {
+                            val result = googleAuthClient.signIn()
+                            result.onSuccess { credential ->
+                                Toast.makeText(context, "Sesión con Google exitosa", Toast.LENGTH_SHORT).show()
+                                viewModel.iniciarSesionConGoogle(credential)
+                            }.onFailure { error ->
+                                Toast.makeText(context, "Error: ${error.localizedMessage}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    },
+                    shape = RoundedCornerShape(50),
+                    color = Color(0xFF1E1E1E).copy(alpha = 0.85f),
+                    border = BorderStroke(1.dp, Color.White.copy(alpha = 0.25f)),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "G",
+                            color = Color(0xFF4285F4),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(
+                            text = "Continuar con Google",
+                            color = Color.White,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
 
                 TextButton(onClick = onIrARegistro) {
                     Text(
@@ -189,38 +232,6 @@ fun LoginScreen(
                         color = Color.White.copy(alpha = 0.8f),
                         fontSize = 13.sp
                     )
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = "o iniciar sesión con",
-                    color = Color.White,
-                    fontSize = 14.sp
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                // Botón circular de Google funcional
-                Box(
-                    modifier = Modifier
-                        .size(44.dp)
-                        .clip(CircleShape)
-                        .background(Color.White)
-                        .clickable {
-                            scope.launch {
-                                val result = googleAuthClient.signIn()
-                                result.onSuccess { credential ->
-                                    Toast.makeText(context, "Sesión con Google exitosa", Toast.LENGTH_SHORT).show()
-                                    viewModel.iniciarSesionConGoogle(credential)
-                                }.onFailure { error ->
-                                    Toast.makeText(context, "Error: ${error.localizedMessage}", Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text("G", fontWeight = FontWeight.Bold, color = Color.Black)
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
