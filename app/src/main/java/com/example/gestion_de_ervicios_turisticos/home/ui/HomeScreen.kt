@@ -31,6 +31,7 @@ import com.example.gestion_de_ervicios_turisticos.ui.theme.ColoresSaranta
 fun HomeScreen(
     onServicioClick: (Servicio) -> Unit,
     onIrAItinerario: () -> Unit,
+    onIrABuscar: () -> Unit,
     onIrAPerfil: () -> Unit,
     viewModel: HomeViewModel = viewModel()
 ) {
@@ -53,7 +54,7 @@ fun HomeScreen(
                 .padding(bottom = 20.dp),
             onIrAInicio = { /* ya estamos aquí */ },
             onIrAItinerario = onIrAItinerario,
-            onIrABuscar = { /* TODO: conectar a pantalla de búsqueda si la crean aparte */ },
+            onIrABuscar = onIrABuscar,   // <- ahora usa el parámetro que recibe HomeScreen, no un TODO vacío
             onIrAPerfil = onIrAPerfil
         )
     }
@@ -328,6 +329,7 @@ fun HomeScreenPreview() {
     HomeScreen(
         onServicioClick = {},
         onIrAItinerario = {},
+        onIrABuscar = {},   // <- agrega esta línea
         onIrAPerfil = {}
     )
 }

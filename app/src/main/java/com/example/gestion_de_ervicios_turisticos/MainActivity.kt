@@ -20,6 +20,7 @@ import com.example.gestion_de_ervicios_turisticos.auth.ui.LoginScreen
 import com.example.gestion_de_ervicios_turisticos.auth.ui.RegisterScreen
 import com.example.gestion_de_ervicios_turisticos.auth.ui.SeleccionRolScreen
 import com.example.gestion_de_ervicios_turisticos.auth.ui.WelcomeScreen
+import com.example.gestion_de_ervicios_turisticos.home.ui.BusquedaScreen
 import com.example.gestion_de_ervicios_turisticos.home.ui.DetalleServicioScreen
 import com.example.gestion_de_ervicios_turisticos.home.ui.HomeScreen
 import com.example.gestion_de_ervicios_turisticos.itinerario.ui.ItinerarioScreen
@@ -82,6 +83,7 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(
                                 onServicioClick = { servicio -> navController.navigate("detalle/${servicio.id}") },
                                 onIrAItinerario = { navController.navigate("itinerario") },
+                                onIrABuscar = { navController.navigate("busqueda") },   // <- agrega esta línea
                                 onIrAPerfil = { navController.navigate("perfil") }
                             )
                         }
@@ -129,6 +131,12 @@ class MainActivity : ComponentActivity() {
                             EditarPerfilScreen(
                                 onVolver = { navController.popBackStack() },
                                 onGuardadoExitoso = { navController.popBackStack() }
+                            )
+                        }
+                        composable("busqueda") {
+                            BusquedaScreen(
+                                onVolver = { navController.popBackStack() },
+                                onServicioClick = { servicio -> navController.navigate("detalle/${servicio.id}") }
                             )
                         }
                     }
