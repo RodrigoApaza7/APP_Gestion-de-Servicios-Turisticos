@@ -12,13 +12,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class HomeViewModel(
-    private val repository: ServicioRepository = ServicioRepository()
-) : ViewModel() {
+class HomeViewModel: ViewModel() {
 
-    private val todosLosServicios: List<Servicio> = repository.obtenerTodos()
-
-    val serviciosDestacados: List<Servicio> = repository.obtenerDestacados()
+    private val todosLosServicios: List<Servicio> = ServicioRepository.obtenerTodos()
+    val serviciosDestacados: List<Servicio> = ServicioRepository.obtenerDestacados()
 
     private val _tipoSeleccionado = MutableStateFlow(TipoServicio.TODOS)
     val tipoSeleccionado: StateFlow<TipoServicio> = _tipoSeleccionado.asStateFlow()

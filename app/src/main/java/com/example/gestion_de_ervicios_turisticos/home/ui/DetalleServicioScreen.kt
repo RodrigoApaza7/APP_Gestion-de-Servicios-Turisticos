@@ -28,10 +28,9 @@ import com.example.gestion_de_ervicios_turisticos.ui.theme.ColoresSaranta
 fun DetalleServicioScreen(
     servicioId: String,
     onVolver: () -> Unit,
-    onReservar: (Servicio) -> Unit,
-    repository: ServicioRepository = remember { ServicioRepository() }
+    onReservar: (Servicio) -> Unit
 ) {
-    val servicio = remember(servicioId) { repository.obtenerPorId(servicioId) }
+    val servicio = remember(servicioId) { ServicioRepository.obtenerPorId(servicioId) }
 
     if (servicio == null) {
         ServicioNoEncontrado(onVolver = onVolver)

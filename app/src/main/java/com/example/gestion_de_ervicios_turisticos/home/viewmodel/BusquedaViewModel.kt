@@ -12,9 +12,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class BusquedaViewModel(
-    private val repository: ServicioRepository = ServicioRepository()
-) : ViewModel() {
+class BusquedaViewModel: ViewModel() {
 
     private val _textoBusqueda = MutableStateFlow("")
     val textoBusqueda: StateFlow<String> = _textoBusqueda.asStateFlow()
@@ -23,7 +21,7 @@ class BusquedaViewModel(
     // así no busca en CADA letra tecleada (más eficiente, sensación más fluida)
     val resultados: StateFlow<List<Servicio>> = _textoBusqueda
         .debounce(300)
-        .map { query -> repository.buscar(query) }
+        .map { query -> ServicioRepository.buscar(query) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
