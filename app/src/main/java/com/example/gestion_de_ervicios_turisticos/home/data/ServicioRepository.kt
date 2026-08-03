@@ -25,4 +25,14 @@ class ServicioRepository {
     fun obtenerDestacados(): List<Servicio> = servicios.filter { it.esDestacado }
 
     fun obtenerPorId(id: String): Servicio? = servicios.find { it.id == id }
+
+    fun buscar(query: String): List<Servicio> {
+        if (query.isBlank()) return emptyList()
+        val queryNormalizado = query.trim().lowercase()
+        return servicios.filter {
+            it.nombre.lowercase().contains(queryNormalizado) ||
+                    it.destino.lowercase().contains(queryNormalizado) ||
+                    it.tipo.etiqueta.lowercase().contains(queryNormalizado)
+        }
+    }
 }
