@@ -1,73 +1,54 @@
 package com.example.gestion_de_ervicios_turisticos.auth.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.gestion_de_ervicios_turisticos.R
 import com.example.gestion_de_ervicios_turisticos.ui.theme.ColoresSaranta
 
 // Estados de la rana para el flujo de LOGIN
-enum class EstadoRanaLogin(val mensaje: String) {
-    BIENVENIDA("¡Hola! Qué bueno verte otra vez."),
-    ESCRIBIENDO_CORREO("Escribiendo tu correo..."),
-    ESCRIBIENDO_CONTRASENA("Cuidando tu contraseña 🔒"),
-    LOGIN_CORRECTO("¡Excelente! Vamos a viajar."),
-    CONTRASENA_INCORRECTA("Ups... esa contraseña no coincide."),
-    SIN_INTERNET("Sin conexión. Verifica tu internet.")
+enum class EstadoRanaLogin(val mensaje: String, val drawableRes: Int) {
+    BIENVENIDA("¡Hola! Qué bueno verte otra vez.", R.drawable.rana_bienvenida),
+    ESCRIBIENDO_CORREO("Escribiendo tu correo...", R.drawable.rana_correo),
+    ESCRIBIENDO_CONTRASENA("Cuidando tu contraseña 🔒", R.drawable.rana_contrasena),
+    LOGIN_CORRECTO("¡Excelente! Vamos a viajar.", R.drawable.rana_exito),
+    CONTRASENA_INCORRECTA("Ups... esa contraseña no coincide.", R.drawable.rana_error),
+    SIN_INTERNET("Sin conexión. Verifica tu internet.", R.drawable.rana_error) // TODO: reemplazar cuando tengas la imagen específica de "sin internet"
 }
 
 // Estados de la rana para el flujo de REGISTRO
-enum class EstadoRanaRegistro(val mensaje: String) {
-    INICIO("¡Comencemos! Completa tus datos."),
-    NOMBRE_COMPLETADO("La rana se prepara para el viaje."),
-    CORREO_COMPLETADO("Obtiene su pasaporte."),
-    CONTRASENA_COMPLETADA("Añade su brújula."),
-    TODO_COMPLETADO("Está lista para viajar."),
-    REGISTRO_EXITOSO("¡Bienvenido a Saranta! Tu aventura comienza ahora.")
+enum class EstadoRanaRegistro(val mensaje: String, val drawableRes: Int) {
+    INICIO("¡Comencemos! Completa tus datos.", R.drawable.inicio_register),
+    NOMBRE_COMPLETADO("La rana se prepara para el viaje.", R.drawable.inicio_register), // TODO: reemplazar cuando tengas la imagen específica de "nombre completado"
+    CORREO_COMPLETADO("Obtiene su pasaporte.", R.drawable.correo_completado),
+    CONTRASENA_COMPLETADA("Añade su brújula.", R.drawable.contrasena_completa),
+    TODO_COMPLETADO("Está lista para viajar.", R.drawable.registro_completado),
+    REGISTRO_EXITOSO("¡Bienvenido a Saranta! Tu aventura comienza ahora.", R.drawable.registro_exitoso)
 }
 
-// TODO: cuando tengas las ilustraciones reales, reemplaza cada Icon() de abajo por:
-// Image(painter = painterResource(id = R.drawable.rana_xxx), contentDescription = null, modifier = Modifier.fillMaxSize())
 @Composable
 fun RanaMascotaLogin(estado: EstadoRanaLogin, modifier: Modifier = Modifier) {
-    val (icono, colorFondo) = when (estado) {
-        EstadoRanaLogin.BIENVENIDA -> Icons.Filled.WavingHand to ColoresSaranta.VerdeOscuro
-        EstadoRanaLogin.ESCRIBIENDO_CORREO -> Icons.Filled.Email to ColoresSaranta.AzulOscuro
-        EstadoRanaLogin.ESCRIBIENDO_CONTRASENA -> Icons.Filled.VisibilityOff to ColoresSaranta.AzulOscuro
-        EstadoRanaLogin.LOGIN_CORRECTO -> Icons.Filled.CheckCircle to ColoresSaranta.Verde
-        EstadoRanaLogin.CONTRASENA_INCORRECTA -> Icons.Filled.SentimentDissatisfied to Color3(0xFFC62828)
-        EstadoRanaLogin.SIN_INTERNET -> Icons.Filled.WifiOff to Color3(0xFF757575)
-    }
-    RanaBase(icono = icono, colorFondo = colorFondo, mensaje = estado.mensaje, modifier = modifier)
+    RanaBase(drawableRes = estado.drawableRes, mensaje = estado.mensaje, modifier = modifier)
 }
 
 @Composable
 fun RanaMascotaRegistro(estado: EstadoRanaRegistro, modifier: Modifier = Modifier) {
-    val (icono, colorFondo) = when (estado) {
-        EstadoRanaRegistro.INICIO -> Icons.Filled.WavingHand to ColoresSaranta.VerdeOscuro
-        EstadoRanaRegistro.NOMBRE_COMPLETADO -> Icons.Filled.Badge to ColoresSaranta.AzulOscuro
-        EstadoRanaRegistro.CORREO_COMPLETADO -> Icons.Filled.Mail to ColoresSaranta.AzulOscuro
-        EstadoRanaRegistro.CONTRASENA_COMPLETADA -> Icons.Filled.Explore to ColoresSaranta.Dorado
-        EstadoRanaRegistro.TODO_COMPLETADO -> Icons.Filled.Map to ColoresSaranta.Verde
-        EstadoRanaRegistro.REGISTRO_EXITOSO -> Icons.Filled.Celebration to ColoresSaranta.Verde
-    }
-    RanaBase(icono = icono, colorFondo = colorFondo, mensaje = estado.mensaje, modifier = modifier)
+    RanaBase(drawableRes = estado.drawableRes, mensaje = estado.mensaje, modifier = modifier)
 }
 
 @Composable
 private fun RanaBase(
-    icono: ImageVector,
-    colorFondo: androidx.compose.ui.graphics.Color,
+    drawableRes: Int,
     mensaje: String,
     modifier: Modifier = Modifier
 ) {
@@ -78,18 +59,19 @@ private fun RanaBase(
         Box(
             modifier = Modifier
                 .size(150.dp)
-                .background(colorFondo.copy(alpha = 0.12f), CircleShape),
+                .clip(CircleShape)
+                .background(ColoresSaranta.Crema),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
-                imageVector = icono,
+            Image(
+                painter = painterResource(id = drawableRes),
                 contentDescription = null,
-                tint = colorFondo,
-                modifier = Modifier.size(72.dp)
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
             )
         }
         Spacer(modifier = Modifier.height(12.dp))
-        Text(
+        androidx.compose.material3.Text(
             text = mensaje,
             fontSize = 13.sp,
             color = ColoresSaranta.Negro.copy(alpha = 0.7f),
@@ -98,7 +80,3 @@ private fun RanaBase(
         )
     }
 }
-
-// Pequeño helper porque "Color" ya está importado como material3.Color en otros archivos a veces;
-// aquí lo resolvemos directo para evitar choques de import.
-private fun Color3(value: Long) = androidx.compose.ui.graphics.Color(value)
