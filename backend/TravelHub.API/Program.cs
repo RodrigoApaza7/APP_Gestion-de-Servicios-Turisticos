@@ -13,6 +13,9 @@ using Microsoft.OpenApi.Models;
 using TravelHub.API.Modules.Servicios.Interfaces;
 using TravelHub.API.Modules.Servicios.Repositories;
 using TravelHub.API.Modules.Servicios.Services;
+using TravelHub.API.Modules.Reservas.Interfaces;
+using TravelHub.API.Modules.Reservas.Repositories;
+using TravelHub.API.Modules.Reservas.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +68,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IServicioRepository, ServicioRepository>();
 builder.Services.AddScoped<IServicioService, ServicioService>();
+builder.Services.AddScoped<IReservaRepository, ReservaRepository>();
+builder.Services.AddScoped<IReservaService, ReservaService>();
 
 var jwt = builder.Configuration.GetSection("Jwt");
 
