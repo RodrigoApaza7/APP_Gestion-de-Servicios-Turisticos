@@ -1,6 +1,8 @@
 package com.example.gestion_de_ervicios_turisticos.auth.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -27,6 +30,8 @@ import com.example.gestion_de_ervicios_turisticos.auth.viewmodel.LoginViewModel
 import com.example.gestion_de_ervicios_turisticos.ui.theme.Gestion_de_ervicios_TuristicosTheme
 import com.example.gestion_de_ervicios_turisticos.R
 import com.example.gestion_de_ervicios_turisticos.auth.data.SesionUsuario
+import com.example.gestion_de_ervicios_turisticos.auth.data.GoogleAuthUiClient
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,6 +43,13 @@ fun LoginScreen(
     var correo by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
+
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    // Web Client ID generado en Google Cloud
+    val webClientId = "318861424627-0rffd7ccfpmub21jdc0k8aptkvcudk85.apps.googleusercontent.com"
+    val googleAuthClient = remember { GoogleAuthUiClient(context, webClientId) }
 
     LaunchedEffect(uiState) {
         if (uiState is AuthUiState.Exito) {
@@ -69,12 +81,11 @@ fun LoginScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            // TODO: aquí va tu imagen de fondo. Ejemplo:
-             Image(
-                 painter = painterResource(id = R.drawable.portada_login),
+            Image(
+                painter = painterResource(id = R.drawable.portada_login),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                 modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             )
 
             Column(
@@ -85,7 +96,6 @@ fun LoginScreen(
             ) {
                 Spacer(modifier = Modifier.height(48.dp))
 
-                // Avatar circular con borde blanco
                 Box(
                     modifier = Modifier
                         .size(120.dp)
@@ -103,7 +113,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(48.dp))
 
-                // Campo correo (translúcido)
                 TextField(
                     value = correo,
                     onValueChange = { correo = it },
@@ -123,7 +132,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Campo contraseña (translúcido)
                 TextField(
                     value = contrasena,
                     onValueChange = { contrasena = it },
@@ -152,7 +160,6 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 
-                // Botón Ingresar (negro, redondeado)
                 Button(
                     onClick = { viewModel.iniciarSesion(correo, contrasena) },
                     enabled = uiState !is AuthUiState.Cargando,
@@ -174,7 +181,50 @@ fun LoginScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
+
+                // Botón "Continuar con Google" integrado
+                Surface(
+                    onClick = {
+                        scope.launch {
+                            val result = googleAuthClient.signIn()
+                            result.onSuccess { credential ->
+                                Toast.makeText(context, "Sesión con Google exitosa", Toast.LENGTH_SHORT).show()
+                                viewModel.iniciarSesionConGoogle(credential)
+                            }.onFailure { error ->
+                                Toast.makeText(context, "Error: ${error.localizedMessage}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    },
+                    shape = RoundedCornerShape(50),
+                    color = Color(0xFF1E1E1E).copy(alpha = 0.85f),
+                    border = BorderStroke(1.dp, Color.White.copy(alpha = 0.25f)),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "G",
+                            color = Color(0xFF4285F4),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(
+                            text = "Continuar con Google",
+                            color = Color.White,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
 
                 TextButton(onClick = onIrARegistro) {
                     Text(
@@ -182,29 +232,6 @@ fun LoginScreen(
                         color = Color.White.copy(alpha = 0.8f),
                         fontSize = 13.sp
                     )
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = "o iniciar sesión con",
-                    color = Color.White,
-                    fontSize = 14.sp
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                // Botón de Google: placeholder circular.
-                // TODO: reemplaza el ícono por el logo oficial de Google
-                // (descárgalo de developers.google.com/identity y ponlo en res/drawable)
-                Box(
-                    modifier = Modifier
-                        .size(44.dp)
-                        .clip(CircleShape)
-                        .background(Color.White),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text("G", fontWeight = FontWeight.Bold, color = Color.Black)
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
