@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Gestion_de _ervicios_Turisticos</string>
+    <string name="mapbox_access_token" translatable="false">pk.eyJ1IjoiamFtaWVsbWVuZG96YSIsImEiOiJjbXNldDF1eW4wMGl3MnlxMTU4d2c0M2U3In0.1LcgU748pJDS53WNVaKKMA</string>
 </resources>

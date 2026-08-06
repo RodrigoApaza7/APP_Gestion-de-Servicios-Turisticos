@@ -1,5 +1,7 @@
 package com.example.gestion_de_ervicios_turisticos.home.ui
 
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -30,6 +32,7 @@ fun DetalleServicioScreen(
     onVolver: () -> Unit,
     onReservar: (Servicio) -> Unit
 ) {
+    val context = LocalContext.current
     val servicio = remember(servicioId) { ServicioRepository.obtenerPorId(servicioId) }
 
     if (servicio == null) {
@@ -149,9 +152,12 @@ fun DetalleServicioScreen(
                                 servicioId = servicio.id,
                                 nombreServicio = servicio.nombre,
                                 destino = servicio.destino,
-                                precio = servicio.precio
+                                precio = servicio.precio,
+                                latitud = servicio.latitud,
+                                longitud = servicio.longitud
                             )
                         )
+                        Toast.makeText(context, "${servicio.nombre} agregado al itinerario", Toast.LENGTH_SHORT).show()
                     },
                     colors = ButtonDefaults.outlinedButtonColors(contentColor = ColoresSaranta.VerdeOscuro),
                     shape = RoundedCornerShape(50)

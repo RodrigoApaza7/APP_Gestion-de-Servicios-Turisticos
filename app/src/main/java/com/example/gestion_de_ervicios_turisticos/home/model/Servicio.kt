@@ -9,6 +9,8 @@ data class Servicio(
     val calificacion: Double,
     val esDestacado: Boolean = false,
     val descripcion: String = "Descripción no disponible por el momento.",
+    val latitud: Double = 0.0,
+    val longitud: Double = 0.0,
     val prestadorId: String? = null // null = servicio "genérico" del catálogo demo; con id = pertenece a ese Prestador
 )
 
