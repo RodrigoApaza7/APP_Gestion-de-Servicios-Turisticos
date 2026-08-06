@@ -1,6 +1,7 @@
 using TravelHub.API.Models;
 using TravelHub.API.Modules.Usuarios.DTOs;
 using TravelHub.API.Modules.Usuarios.Interfaces;
+using TravelHub.API.Common.Security;
 
 namespace TravelHub.API.Modules.Usuarios.Services;
 
@@ -76,7 +77,7 @@ public class UsuarioService : IUsuarioService
             correo = dto.Correo,
 
             // Más adelante aquí irá BCrypt
-            password_hash = dto.Password,
+            password_hash = PasswordHasher.Hash(dto.Password),
 
             telefono = dto.Telefono,
             foto_perfil = null,
@@ -120,11 +121,40 @@ public class UsuarioService : IUsuarioService
 
     public async Task<bool> ActualizarAsync(int id, ActualizarUsuarioDto dto)
     {
-        throw new NotImplementedException();
+        var usuario = await _repository.ObtenerPorIdAsync(id);
+
+        if (usuario == null)
+            return false;
+
+        usuario.nombre = dto.Nombre;
+        usuario.apellido = dto.Apellido;
+        usuario.telefono = dto.Telefono;
+        usuario.foto_perfil = dto.FotoPerfil;
+        usuario.fecha_nacimiento = dto.FechaNacimiento;
+        usuario.nacionalidad = dto.Nacionalidad;
+        usuario.ciudad = dto.Ciudad;
+        usuario.idioma = dto.Idioma;
+        usuario.activo = dto.Activo;
+
+        usuario.fecha_actualizacion = DateTime.Now;
+
+        await _repository.ActualizarAsync(usuario);
+        await _repository.GuardarCambiosAsync();
+
+        return true;
     }
 
     public async Task<bool> EliminarAsync(int id)
     {
-        throw new NotImplementedException();
+        var usuario = await _repository.ObtenerPorIdAsync(id);
+
+        if (usuario == null)
+            return false;
+
+        await _repository.EliminarAsync(usuario);
+
+        await _repository.GuardarCambiosAsync();
+
+        return true;
     }
 }
