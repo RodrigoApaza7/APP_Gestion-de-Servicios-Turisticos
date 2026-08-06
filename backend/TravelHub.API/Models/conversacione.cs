@@ -7,11 +7,15 @@ public partial class conversacione
 {
     public int id_conversacion { get; set; }
 
-    public DateTime? fecha_creacion { get; set; }
-
     public int id_usuario1 { get; set; }
 
     public int id_usuario2 { get; set; }
+
+    public bool? activa { get; set; }
+
+    public DateTime? fecha_creacion { get; set; }
+
+    public DateTime? fecha_ultimo_mensaje { get; set; }
 
     public virtual usuario id_usuario1Navigation { get; set; } = null!;
 

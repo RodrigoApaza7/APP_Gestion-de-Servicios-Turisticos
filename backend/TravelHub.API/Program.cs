@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using TravelHub.API.Data;
+using TravelHub.API.Modules.Usuarios.Interfaces;
+using TravelHub.API.Modules.Usuarios.Repositories;
+using TravelHub.API.Modules.Usuarios.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,9 @@ builder.Services.AddDbContext<TravelHubContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 var app = builder.Build();
 

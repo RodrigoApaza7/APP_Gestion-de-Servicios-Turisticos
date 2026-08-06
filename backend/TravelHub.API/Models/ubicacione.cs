@@ -19,11 +19,19 @@ public partial class ubicacione
 
     public string departamento { get; set; } = null!;
 
-    public string? pais { get; set; }
+    public string pais { get; set; } = null!;
 
     public decimal latitud { get; set; }
 
     public decimal longitud { get; set; }
+
+    public string? url_google_maps { get; set; }
+
+    public string? plus_code { get; set; }
+
+    public decimal? radio_cobertura_km { get; set; }
+
+    public DateTime? fecha_creacion { get; set; }
 
     public virtual ICollection<servicio> servicios { get; set; } = new List<servicio>();
 }

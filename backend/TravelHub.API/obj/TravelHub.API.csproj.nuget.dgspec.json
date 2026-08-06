@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\githubPruebas\\APP_Gestion-de-Servicios-Turisticos\\backend\\TravelHub.API\\TravelHub.API.csproj": {}
+    "D:\\githubPruebas\\APP_Gestion-de-Servicios-Turisticos\\Backend\\TravelHub.API\\TravelHub.API.csproj": {}
   },
   "projects": {
-    "D:\\githubPruebas\\APP_Gestion-de-Servicios-Turisticos\\backend\\TravelHub.API\\TravelHub.API.csproj": {
+    "D:\\githubPruebas\\APP_Gestion-de-Servicios-Turisticos\\Backend\\TravelHub.API\\TravelHub.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\githubPruebas\\APP_Gestion-de-Servicios-Turisticos\\backend\\TravelHub.API\\TravelHub.API.csproj",
+        "projectUniqueName": "D:\\githubPruebas\\APP_Gestion-de-Servicios-Turisticos\\Backend\\TravelHub.API\\TravelHub.API.csproj",
         "projectName": "TravelHub.API",
-        "projectPath": "D:\\githubPruebas\\APP_Gestion-de-Servicios-Turisticos\\backend\\TravelHub.API\\TravelHub.API.csproj",
+        "projectPath": "D:\\githubPruebas\\APP_Gestion-de-Servicios-Turisticos\\Backend\\TravelHub.API\\TravelHub.API.csproj",
         "packagesPath": "C:\\Users\\Victus\\.nuget\\packages\\",
-        "outputPath": "D:\\githubPruebas\\APP_Gestion-de-Servicios-Turisticos\\backend\\TravelHub.API\\obj\\",
+        "outputPath": "D:\\githubPruebas\\APP_Gestion-de-Servicios-Turisticos\\Backend\\TravelHub.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Victus\\AppData\\Roaming\\NuGet\\NuGet.Config"

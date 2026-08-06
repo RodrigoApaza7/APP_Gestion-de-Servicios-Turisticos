@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "e1KkTF/Hw2M=",
+  "dgSpecHash": "G8PmeksD4PQ=",
   "success": true,
-  "projectFilePath": "D:\\githubPruebas\\APP_Gestion-de-Servicios-Turisticos\\backend\\TravelHub.API\\TravelHub.API.csproj",
+  "projectFilePath": "D:\\githubPruebas\\APP_Gestion-de-Servicios-Turisticos\\Backend\\TravelHub.API\\TravelHub.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Victus\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Victus\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.9\\microsoft.aspnetcore.openapi.9.0.9.nupkg.sha512",

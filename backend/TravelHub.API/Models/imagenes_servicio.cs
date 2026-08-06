@@ -15,7 +15,13 @@ public partial class imagenes_servicio
 
     public bool? principal { get; set; }
 
-    public int? orden { get; set; }
+    public short? orden { get; set; }
+
+    public string? tipo { get; set; }
+
+    public int? peso_kb { get; set; }
+
+    public DateTime? fecha_subida { get; set; }
 
     public virtual servicio id_servicioNavigation { get; set; } = null!;
 }
