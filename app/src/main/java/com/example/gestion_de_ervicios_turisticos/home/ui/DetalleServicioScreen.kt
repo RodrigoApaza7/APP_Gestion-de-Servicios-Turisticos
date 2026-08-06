@@ -150,7 +150,9 @@ fun DetalleServicioScreen(
                                 servicioId = servicio.id,
                                 nombreServicio = servicio.nombre,
                                 destino = servicio.destino,
-                                precio = servicio.precio
+                                precio = servicio.precio,
+                                latitud = servicio.latitud,
+                                longitud = servicio.longitud
                             )
                         )
                     },
