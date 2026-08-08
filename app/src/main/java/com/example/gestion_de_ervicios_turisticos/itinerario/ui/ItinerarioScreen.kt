@@ -27,24 +27,13 @@ fun ItinerarioScreen(
     val items = ItinerarioEnCurso.items // mutableStateListOf ya es observable, no necesita collectAsState
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // Espacio reservado para el mapa (Google Maps), cuando lo integren
-        Box(
+        // Mapa del itinerario (Mapbox v11)
+        MapaItinerario(
+            items = items,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(180.dp)
-                .background(Color(0xFFE0E0E0)),
-            contentAlignment = Alignment.Center
-        ) {
-            // TODO: Reemplazar por Google Maps Compose cuando esté configurada la API Key.
-            // Ejemplo futuro:
-            // GoogleMap(modifier = Modifier.fillMaxSize()) { ... marcadores de cada servicio ... }
-            Icon(
-                imageVector = Icons.Filled.Map,
-                contentDescription = "Mapa (próximamente)",
-                tint = Color(0xFF9E9E9E),
-                modifier = Modifier.size(48.dp)
-            )
-        }
+        )
 
         Text(
             text = "Mi Itinerario",

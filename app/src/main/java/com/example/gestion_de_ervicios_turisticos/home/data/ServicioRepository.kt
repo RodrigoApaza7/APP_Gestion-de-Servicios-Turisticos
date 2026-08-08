@@ -1,11 +1,12 @@
 package com.example.gestion_de_ervicios_turisticos.home.data
 
+import androidx.compose.runtime.mutableStateListOf
 import com.example.gestion_de_ervicios_turisticos.home.model.Servicio
 import com.example.gestion_de_ervicios_turisticos.home.model.TipoServicio
 
-class ServicioRepository {
+object ServicioRepository {
 
-    private val servicios = listOf(
+    val servicios = mutableStateListOf(
         Servicio("1", "Hotel Titikaka", TipoServicio.HOTEL, "Puno", 150.0, 4.5, esDestacado = true),
         Servicio("2", "Tour Islas Uros", TipoServicio.TOUR, "Puno", 80.0, 4.8, esDestacado = true),
         Servicio("3", "Restaurante Mojsa", TipoServicio.RESTAURANTE, "Cusco", 45.0, 4.6, esDestacado = true),
@@ -25,4 +26,22 @@ class ServicioRepository {
     fun obtenerDestacados(): List<Servicio> = servicios.filter { it.esDestacado }
 
     fun obtenerPorId(id: String): Servicio? = servicios.find { it.id == id }
+
+    fun buscar(query: String): List<Servicio> {
+        if (query.isBlank()) return emptyList()
+        val q = query.trim().lowercase()
+        return servicios.filter {
+            it.nombre.lowercase().contains(q) || it.destino.lowercase().contains(q) || it.tipo.etiqueta.lowercase().contains(q)
+        }
+    }
+
+    fun obtenerPorPrestador(prestadorId: String): List<Servicio> = servicios.filter { it.prestadorId == prestadorId }
+
+    fun agregarServicio(servicio: Servicio) {
+        servicios.add(servicio)
+    }
+
+    fun eliminarServicio(id: String) {
+        servicios.removeAll { it.id == id }
+    }
 }
