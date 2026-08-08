@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "739172636905",
+    "project_id": "saranta-c500a",
+    "storage_bucket": "saranta-c500a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:739172636905:android:2b3e1563705a00bcadb878",
+        "android_client_info": {
+          "package_name": "com.example.gestion_de_ervicios_turisticos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "739172636905-ae63ibcd04fir59o83as0mbq4i4guf3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjy1LUqyEWXSVBh20hix4ZiwA8zvuiHTA"
+        },
+        {
+          "current_key": "AIzaSyDCS0oKcA3XjmL3o6qYA7C6pLcrKGyusuA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "739172636905-ae63ibcd04fir59o83as0mbq4i4guf3e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:739172636905:android:30392e1cb5c1f521adb878",
+        "android_client_info": {
+          "package_name": "com.example.gestion_de_servicios_turisticos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "739172636905-20nu5t4nv90g7b9h61kg09f2gnipbco3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gestion_de_servicios_turisticos",
+            "certificate_hash": "860a55039e93a9706dd46cc2e7e2ee74728002c5"
+          }
+        },
+        {
+          "client_id": "739172636905-ae63ibcd04fir59o83as0mbq4i4guf3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjy1LUqyEWXSVBh20hix4ZiwA8zvuiHTA"
+        },
+        {
+          "current_key": "AIzaSyDCS0oKcA3XjmL3o6qYA7C6pLcrKGyusuA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "739172636905-ae63ibcd04fir59o83as0mbq4i4guf3e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

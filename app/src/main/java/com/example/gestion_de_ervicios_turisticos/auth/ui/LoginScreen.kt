@@ -51,7 +51,7 @@ fun LoginScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val webClientId = "318861424627-0rffd7ccfpmub21jdc0k8aptkvcudk85.apps.googleusercontent.com"
+    val webClientId = "739172636905-ae63ibcd04fir59o83as0mbq4i4guf3e.apps.googleusercontent.com"
     val googleAuthClient = remember { GoogleAuthUiClient(context, webClientId) }
 
     // Detecta foco de cada campo para saber qué expresión mostrar
@@ -171,7 +171,7 @@ fun LoginScreen(
                             val result = googleAuthClient.signIn()
                             result.onSuccess { credential ->
                                 Toast.makeText(context, "Sesión con Google exitosa", Toast.LENGTH_SHORT).show()
-                                viewModel.iniciarSesionConGoogle(credential)
+                                viewModel.iniciarSesionConGoogle(credential.idToken)
                             }.onFailure { error ->
                                 Toast.makeText(context, "Error: ${error.localizedMessage}", Toast.LENGTH_SHORT).show()
                             }

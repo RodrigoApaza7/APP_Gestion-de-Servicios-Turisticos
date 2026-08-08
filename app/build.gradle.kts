@@ -3,6 +3,8 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.google.gms.google.services)
+
 }
 
 val localProperties = Properties().apply {
@@ -21,7 +23,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.gestion_de_ervicios_turisticos"
+        applicationId = "com.example.gestion_de_servicios_turisticos"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -82,4 +84,20 @@ dependencies {
     // Mapbox
     implementation("com.mapbox.maps:android:11.26.0")
     implementation("com.mapbox.extension:maps-compose:11.26.0")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    // ↑ "bom" = Bill of Materials: un paquete que asegura que TODAS
+    // las librerías de Firebase que uses sean versiones compatibles entre sí.
+    // Es una buena práctica: evita conflictos de versiones.
+
+    implementation("com.google.firebase:firebase-auth-ktx")
+    // ↑ Librería para login/registro de usuarios
+
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    // ↑ Librería para guardar datos (base de datos)
+
+    implementation("com.google.firebase:firebase-storage-ktx")
+
+    implementation(libs.kotlinx.coroutines.play.services)
+    // ↑ Librería para guardar imágenes
 }

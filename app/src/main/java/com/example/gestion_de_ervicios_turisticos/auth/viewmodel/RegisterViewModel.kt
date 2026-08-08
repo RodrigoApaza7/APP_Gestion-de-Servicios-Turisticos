@@ -8,9 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class RegisterViewModel(
-    private val repository: AuthRepository = AuthRepository()
-) : ViewModel() {
+class RegisterViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow<AuthUiState>(AuthUiState.Inactivo)
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow()
@@ -27,7 +25,7 @@ class RegisterViewModel(
     ) {
         viewModelScope.launch {
             _uiState.value = AuthUiState.Cargando
-            val resultado = repository.registrar(
+            val resultado = AuthRepository.registrar(
                 nombre, correo, contrasena, telefono, fechaNacimiento, rol, nombreNegocio, ruc
             )
             _uiState.value = resultado.fold(

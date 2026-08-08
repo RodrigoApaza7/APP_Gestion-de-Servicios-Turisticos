@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.gestion_de_ervicios_turisticos.auth.data.AuthRepository
 import com.example.gestion_de_ervicios_turisticos.auth.data.SesionUsuario
 import com.example.gestion_de_ervicios_turisticos.ui.theme.ColoresSaranta
 
@@ -149,6 +150,7 @@ fun PerfilScreen(
             colorIcono = Color(0xFFC62828),
             colorTexto = Color(0xFFC62828),
             onClick = {
+                AuthRepository.cerrarSesionFirebase()
                 SesionUsuario.cerrarSesion()
                 onCerrarSesion()
             }

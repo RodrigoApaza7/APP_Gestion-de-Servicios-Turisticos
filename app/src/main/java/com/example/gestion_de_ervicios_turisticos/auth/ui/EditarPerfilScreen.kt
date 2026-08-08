@@ -22,12 +22,12 @@ import com.example.gestion_de_ervicios_turisticos.auth.data.AuthRepository
 import com.example.gestion_de_ervicios_turisticos.auth.data.SesionUsuario
 import com.example.gestion_de_ervicios_turisticos.auth.model.User
 import com.example.gestion_de_ervicios_turisticos.ui.theme.ColoresSaranta
+import kotlinx.coroutines.launch
 
 @Composable
 fun EditarPerfilScreen(
     onVolver: () -> Unit,
-    onGuardadoExitoso: () -> Unit,
-    repository: AuthRepository = remember { AuthRepository() }
+    onGuardadoExitoso: () -> Unit
 ) {
     val usuario = SesionUsuario.usuarioActual.value
 
@@ -42,6 +42,7 @@ fun EditarPerfilScreen(
     var nombreNegocio by remember { mutableStateOf(usuario.nombreNegocio ?: "") }
     var ruc by remember { mutableStateOf(usuario.ruc ?: "") }
     var error by remember { mutableStateOf<String?>(null) }
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -126,9 +127,11 @@ fun EditarPerfilScreen(
                         nombreNegocio = if (usuario.rol == "prestador") nombreNegocio else null,
                         ruc = if (usuario.rol == "prestador") ruc else null
                     )
-                    repository.actualizarUsuario(usuarioActualizado)
-                    SesionUsuario.actualizarUsuario(usuarioActualizado)
-                    onGuardadoExitoso()
+                    scope.launch {
+                        AuthRepository.actualizarUsuario(usuarioActualizado)
+                        SesionUsuario.actualizarUsuario(usuarioActualizado)
+                        onGuardadoExitoso()
+                    }
                 },
                 shape = RoundedCornerShape(50),
                 colors = ButtonDefaults.buttonColors(containerColor = ColoresSaranta.VerdeOscuro),
