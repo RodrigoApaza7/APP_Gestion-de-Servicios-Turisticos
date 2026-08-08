@@ -9,21 +9,15 @@ public partial class prestadore
 
     public int id_usuario { get; set; }
 
+    public string? nombre_comercial { get; set; }
+
     public string? descripcion { get; set; }
 
     public string? documento_identidad { get; set; }
 
-    public string? certificado { get; set; }
-
-    public bool? aprobado { get; set; }
-
     public string? razon_social { get; set; }
 
     public string? ruc { get; set; }
-
-    public int? anios_experiencia { get; set; }
-
-    public bool? verificado { get; set; }
 
     public string? telefono { get; set; }
 
@@ -34,6 +28,24 @@ public partial class prestadore
     public string? facebook { get; set; }
 
     public string? instagram { get; set; }
+
+    public string? logo { get; set; }
+
+    public string? certificado { get; set; }
+
+    public int? anios_experiencia { get; set; }
+
+    public decimal? promedio_calificacion { get; set; }
+
+    public int? cantidad_servicios { get; set; }
+
+    public int? cantidad_reservas { get; set; }
+
+    public bool? aprobado { get; set; }
+
+    public bool? verificado { get; set; }
+
+    public DateTime? fecha_registro { get; set; }
 
     public virtual usuario id_usuarioNavigation { get; set; } = null!;
 

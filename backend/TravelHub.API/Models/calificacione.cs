@@ -11,13 +11,13 @@ public partial class calificacione
 
     public int id_servicio { get; set; }
 
-    public int puntuacion { get; set; }
+    public short puntuacion { get; set; }
 
     public string? comentario { get; set; }
 
-    public DateTime? fecha { get; set; }
+    public DateTime? fecha_creacion { get; set; }
 
-    public string? respuesta_prestador { get; set; }
+    public bool? editado { get; set; }
 
     public virtual servicio id_servicioNavigation { get; set; } = null!;
 

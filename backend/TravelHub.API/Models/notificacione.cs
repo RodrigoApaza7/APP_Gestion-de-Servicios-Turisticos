@@ -11,15 +11,19 @@ public partial class notificacione
 
     public string titulo { get; set; } = null!;
 
-    public string? descripcion { get; set; }
-
-    public bool? leida { get; set; }
-
-    public DateTime? fecha { get; set; }
+    public string mensaje { get; set; } = null!;
 
     public string? tipo { get; set; }
 
     public string? url_destino { get; set; }
+
+    public string? icono { get; set; }
+
+    public short? prioridad { get; set; }
+
+    public bool? leida { get; set; }
+
+    public DateTime? fecha_creacion { get; set; }
 
     public virtual usuario id_usuarioNavigation { get; set; } = null!;
 }
