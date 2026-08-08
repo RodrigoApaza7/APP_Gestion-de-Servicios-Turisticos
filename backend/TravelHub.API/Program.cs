@@ -16,6 +16,9 @@ using TravelHub.API.Modules.Servicios.Services;
 using TravelHub.API.Modules.Reservas.Interfaces;
 using TravelHub.API.Modules.Reservas.Repositories;
 using TravelHub.API.Modules.Reservas.Services;
+using TravelHub.API.Modules.Itinerarios.Interfaces;
+using TravelHub.API.Modules.Itinerarios.Repositories;
+using TravelHub.API.Modules.Itinerarios.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,6 +73,10 @@ builder.Services.AddScoped<IServicioRepository, ServicioRepository>();
 builder.Services.AddScoped<IServicioService, ServicioService>();
 builder.Services.AddScoped<IReservaRepository, ReservaRepository>();
 builder.Services.AddScoped<IReservaService, ReservaService>();
+builder.Services.AddScoped<IItinerarioRepository, ItinerarioRepository>();
+builder.Services.AddScoped<IItinerarioService, ItinerarioService>();
+builder.Services.AddScoped<IDetalleItinerarioRepository, DetalleItinerarioRepository>();
+builder.Services.AddScoped<IDetalleItinerarioService, DetalleItinerarioService>();
 
 var jwt = builder.Configuration.GetSection("Jwt");
 

@@ -29,7 +29,12 @@ class RegisterViewModel : ViewModel() {
                 nombre, correo, contrasena, telefono, fechaNacimiento, rol, nombreNegocio, ruc
             )
             _uiState.value = resultado.fold(
-                onSuccess = { AuthUiState.Exito(it) },
+                onSuccess = {
+                    AuthUiState.Exito(
+                        usuario = it,
+                        token = ""
+                    )
+                },
                 onFailure = { AuthUiState.Error(it.message ?: "Error desconocido") }
             )
         }
