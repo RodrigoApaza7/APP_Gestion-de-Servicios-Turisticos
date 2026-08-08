@@ -9,15 +9,24 @@ import com.example.gestion_de_ervicios_turisticos.auth.model.User
  * cuando haya backend real con JWT y se pueda usar DataStore o similar).
  */
 object SesionUsuario {
+
     var usuarioActual = mutableStateOf<User?>(null)
         private set
 
-    fun iniciarSesion(user: User) {
+    var token = mutableStateOf<String?>(null)
+        private set
+
+    fun iniciarSesion(
+        user: User,
+        token: String
+    ) {
         usuarioActual.value = user
+        this.token.value = token
     }
 
     fun cerrarSesion() {
         usuarioActual.value = null
+        token.value = null
     }
 
     fun actualizarUsuario(usuarioActualizado: User) {

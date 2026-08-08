@@ -19,11 +19,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.gestion_de_ervicios_turisticos.itinerario.data.ItinerarioEnCurso
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.gestion_de_ervicios_turisticos.itinerario.viewmodel.ItinerarioUiState
+import com.example.gestion_de_ervicios_turisticos.itinerario.viewmodel.ItinerarioViewModel
+import androidx.compose.runtime.LaunchedEffect
+import com.example.gestion_de_ervicios_turisticos.auth.data.SesionUsuario
 
 @Composable
 fun ItinerarioScreen(
-    onConfirmarItinerario: () -> Unit
+    onConfirmarItinerario: () -> Unit,
+    viewModel: ItinerarioViewModel = viewModel()
 ) {
+
+    val usuario = SesionUsuario.usuarioActual.value
+
+    LaunchedEffect(usuario?.id) {
+        if (usuario != null) {
+            viewModel.cargarItinerariosDeSesion()
+        }
+    }
     val items = ItinerarioEnCurso.items // mutableStateListOf ya es observable, no necesita collectAsState
 
     Column(modifier = Modifier.fillMaxSize()) {

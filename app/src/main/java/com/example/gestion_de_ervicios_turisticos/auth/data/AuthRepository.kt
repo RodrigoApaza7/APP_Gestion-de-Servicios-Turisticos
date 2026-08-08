@@ -6,6 +6,11 @@ import com.example.gestion_de_ervicios_turisticos.model.request.LoginRequest
 import com.example.gestion_de_ervicios_turisticos.network.ApiClient
 import com.example.gestion_de_ervicios_turisticos.network.ApiService
 
+data class LoginResult(
+    val usuario: User,
+    val token: String
+)
+
 class AuthRepository {
 
     private val api = ApiClient.retrofit.create(ApiService::class.java)
@@ -17,7 +22,10 @@ class AuthRepository {
     private val credenciales = mutableMapOf("demo@travelhub.com" to "123456")
 
 
-    suspend fun login(correo: String, contrasena: String): Result<User> {
+    suspend fun login(
+        correo: String,
+        contrasena: String
+    ): Result<LoginResult> {
 
         return try {
 
@@ -33,22 +41,30 @@ class AuthRepository {
                 val usuario = response.body()!!.data!!
 
                 Result.success(
-                    User(
-                        id = usuario.idUsuario.toString(),
-                        nombre = usuario.nombre,
-                        correo = usuario.correo
+                    LoginResult(
+                        usuario = User(
+                            id = usuario.idUsuario.toString(),
+                            nombre = usuario.nombre,
+                            correo = usuario.correo
+                        ),
+                        token = usuario.token
                     )
                 )
 
             } else {
 
-                Result.failure(Exception("Correo o contraseña incorrectos"))
-
+                Result.failure(
+                    Exception("Correo o contraseña incorrectos")
+                )
             }
 
         } catch (e: Exception) {
+
             e.printStackTrace()
-            Result.failure(Exception(e.message))
+
+            Result.failure(
+                Exception(e.message ?: "Error de conexión")
+            )
         }
     }
 

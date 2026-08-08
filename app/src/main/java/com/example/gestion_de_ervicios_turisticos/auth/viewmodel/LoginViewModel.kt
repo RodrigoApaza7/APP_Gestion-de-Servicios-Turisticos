@@ -19,10 +19,21 @@ class LoginViewModel(
     fun iniciarSesion(correo: String, contrasena: String) {
         viewModelScope.launch {
             _uiState.value = AuthUiState.Cargando
+
             val resultado = repository.login(correo, contrasena)
+
             _uiState.value = resultado.fold(
-                onSuccess = { AuthUiState.Exito(it) },
-                onFailure = { AuthUiState.Error(it.message ?: "Error desconocido") }
+                onSuccess = {
+                    AuthUiState.Exito(
+                        usuario = it.usuario,
+                        token = it.token
+                    )
+                },
+                onFailure = {
+                    AuthUiState.Error(
+                        it.message ?: "Error desconocido"
+                    )
+                }
             )
         }
     }
@@ -36,7 +47,12 @@ class LoginViewModel(
                 idToken = credential.idToken
             )
             _uiState.value = resultado.fold(
-                onSuccess = { AuthUiState.Exito(it) },
+                onSuccess = {
+                    AuthUiState.Exito(
+                        usuario = it,
+                        token = ""
+                    )
+                },
                 onFailure = { AuthUiState.Error(it.message ?: "Error desconocido") }
             )
         }

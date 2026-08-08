@@ -73,9 +73,14 @@ fun LoginScreen(
 
     LaunchedEffect(uiState) {
         if (uiState is AuthUiState.Exito) {
-            val usuario = (uiState as AuthUiState.Exito).usuario
-            SesionUsuario.iniciarSesion(usuario)
-            onLoginExitoso(usuario)
+            val resultado = uiState as AuthUiState.Exito
+
+            SesionUsuario.iniciarSesion(
+                user = resultado.usuario,
+                token = resultado.token
+            )
+
+            onLoginExitoso(resultado.usuario)
         }
     }
 

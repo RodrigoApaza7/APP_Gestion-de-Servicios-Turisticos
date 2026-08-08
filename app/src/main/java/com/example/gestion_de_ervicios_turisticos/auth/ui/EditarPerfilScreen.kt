@@ -167,14 +167,15 @@ private fun CampoEdicion(
 fun EditarPerfilScreenPreview() {
     // Simula un usuario con sesión iniciada, solo para que el Preview tenga datos que mostrar
     SesionUsuario.iniciarSesion(
-        User(
+        user = User(
             id = "1",
             nombre = "Usuario Demo",
             correo = "demo@travelhub.com",
             rol = "turista",
             telefono = "987654321",
             fechaNacimiento = "15/03/2000"
-        )
+        ),
+        token = ""
     )
     EditarPerfilScreen(onVolver = {}, onGuardadoExitoso = {})
 }
